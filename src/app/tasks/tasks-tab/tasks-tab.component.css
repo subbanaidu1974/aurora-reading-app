@@ -1,0 +1,542 @@
+/* Overall Layout */
+.tasks-layout {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  font-family: 'Poppins', Arial, sans-serif;
+}
+
+/* Left Sidebar */
+.sidebar {
+  width: 290px;
+  /* Semi-transparent gradient overlay to reveal global aurora background */
+  background: linear-gradient(180deg, rgba(10,95,110,0.85) 0%, rgba(8,61,71,0.85) 100%);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(2px);
+  /* Start content below fixed header */
+  padding-top: 72px;
+  box-sizing: border-box;
+}
+.sidebar.collapsed {
+  width: 290px;
+}
+
+.collapse-toggle {
+  position: absolute;
+  top: 16px;
+  right: 14px;
+  background: transparent;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  font-size: 20px;
+  justify-content: center;
+  cursor: pointer;
+  transition: background .2s ease, transform .2s ease;
+}
+
+.collapse-toggle:hover {
+  background: rgba(255,255,255,0.18);
+  transform: scale(1.06);
+}
+
+
+/* Sidebar Navigation */
+.sidebar-nav {
+  flex: 1;
+  padding: 20px 0;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+.sidebar-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 24px;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.nav-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.nav-item.active {
+  background: rgba(25, 211, 197, 0.15);
+  color: #19d3c5;
+  border-left: 4px solid #19d3c5;
+  padding-left: 20px;
+}
+
+.nav-icon {
+  font-size: 20px;
+  width: 24px;
+  text-align: center;
+}
+
+.nav-label {
+  flex: 1;
+}
+
+/* Sidebar Calendar */
+.sidebar-calendar {
+  padding: 16px;
+  border-top: 2px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  color: #fff;
+}
+
+.calendar-month {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.calendar-nav-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #fff;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+}
+
+.calendar-nav-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.calendar-day-header {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+  padding: 6px 0;
+}
+
+.calendar-day {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 12px;
+  text-align: center;
+  padding: 6px 0;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.calendar-day:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.calendar-day.other-month {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.calendar-day.selected {
+  background: rgba(25, 211, 197, 0.3);
+  color: #19d3c5;
+  font-weight: 600;
+  border: 1px solid #19d3c5;
+}
+
+.calendar-day.today {
+  background: #19d3c5;
+  color: #0a5f6e;
+  font-weight: 700;
+}
+
+/* Sidebar Footer */
+.sidebar-footer {
+  padding: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.settings-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.settings-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* Main Content Area */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(3px);
+  overflow: hidden;
+  margin-right: 400px;
+  /* Start fully below fixed header */
+  margin-top: 72px;
+  height: auto;
+}
+
+.task-content-area {
+  flex: 1;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+/* Top Bar */
+.top-bar {
+  background: #fff;
+  padding: 12px 20px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* User Info Wrapper */
+.user-info-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin: 18px 18px 0 auto;
+  width: fit-content;
+}
+
+/* Large Avatar Circle - Popped Out */
+.user-avatar-large {
+  width: 85px;
+  height: 85px;
+  border-radius: 50%;
+  background: #0b6472;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 28px;
+  color: #ffffff;
+  border: 4px solid #f5f5f5;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  position: relative;
+}
+
+/* Main Info Panel */
+.user-info-panel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #0b6472;
+  padding: 14px 20px 14px 60px;
+  margin-left: -42px;
+  border-radius: 50px 12px 12px 50px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.user-avatar {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  background: #20d4c6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 20px;
+  color: #0b6472;
+  flex-shrink: 0;
+  border: 2px solid #0b6472;
+}
+
+.user-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+  margin-right: 8px;
+}
+
+.help-btn,
+.settings-btn-top {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #0b6472;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.help-btn:hover,
+.settings-btn-top:hover {
+  background: #0a5963;
+}
+
+.help-btn:hover,
+.settings-btn-top:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Tasks Panel */
+.tasks-panel {
+  position: fixed;
+  right: 0;
+  top: 72px; /* Push below global header */
+  bottom: 0;
+  width: 400px;
+  padding: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(3px);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.tasks-panel::-webkit-scrollbar {
+  display: none;
+}
+
+/* Tasks Container */
+.tasks-container {
+  background: #ffffff;
+  margin: 24px 24px 12px 24px;
+  border-radius: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.tasks-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #0a5f6e;
+  margin: 0;
+  padding: 24px 28px 16px 28px;
+  text-align: center;
+  border-bottom: 3px solid #0a5f6e;
+  background: #ffffff;
+}
+
+.tasks-content {
+  background: #f8f8f8;
+  flex: 1;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+}
+
+/* Task Items in Panel */
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  background: #ffffff;
+  color: #0a5f6e;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid transparent;
+}
+
+.task-item:hover {
+  background: #f0f9f9;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  transform: translateX(-2px);
+}
+
+.task-item.active {
+  background: rgba(25, 211, 197, 0.1);
+  color: #19d3c5;
+  border-left: 4px solid #19d3c5;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(25, 211, 197, 0.2);
+}
+
+.task-icon {
+  font-size: 20px;
+  width: 24px;
+  text-align: center;
+}
+
+.task-label {
+  flex: 1;
+}
+
+/* Tools Container */
+.tools-container {
+  background: #ffffff;
+  margin: 12px 24px 24px 24px;
+  border-radius: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.tools-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #0a5f6e;
+  margin: 0;
+  padding: 24px 28px 16px 28px;
+  text-align: center;
+  border-bottom: 3px solid #0a5f6e;
+  background: #ffffff;
+}
+
+.tools-content {
+  background: #f8f8f8;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Tool Items in Panel */
+.tool-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  background: #ffffff;
+  color: #0a5f6e;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid transparent;
+}
+
+.tool-item:hover {
+  background: #f0f9f9;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  transform: translateX(-2px);
+}
+
+.tool-item.active {
+  background: rgba(25, 211, 197, 0.1);
+  color: #19d3c5;
+  border-left: 4px solid #19d3c5;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(25, 211, 197, 0.2);
+}
+
+.tool-icon {
+  font-size: 20px;
+  width: 24px;
+  text-align: center;
+}
+
+.tool-label {
+  flex: 1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 80px;
+  }
+
+  .logo-text-wrapper,
+  .nav-label {
+    display: none;
+  }
+
+  .sidebar-logo {
+    width: 48px;
+    height: 48px;
+  }
+
+  .nav-item {
+    justify-content: center;
+    padding: 14px;
+  }
+
+  .nav-icon {
+    font-size: 24px;
+  }
+
+  .sidebar-calendar {
+    display: none;
+  }
+
+  .main-content {
+    margin-right: 0;
+  }
+
+  .top-bar {
+    margin-right: 0;
+    padding: 12px 20px;
+  }
+
+  .user-info {
+    width: auto;
+    margin-right: 0;
+  }
+
+  .tasks-panel {
+    position: relative;
+    width: 100%;
+    top: 0;
+    right: 0;
+  }
+}

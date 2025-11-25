@@ -1,0 +1,17 @@
+<div class="login-container">
+    <h4 class="login-subtitle">Please enter your details</h4>
+    <h1 class="login-title">Welcome Back!</h1>
+    <form (submit)="submit($event)">
+      <input type="email" [(ngModel)]="email" name="email" placeholder="Email Address" class="login-input" />
+      <input type="password" [(ngModel)]="password" name="password" placeholder="Password" class="login-input" />
+      <div class="divider">
+        <span class="divider-text">OR</span>
+      </div>
+      <button type="submit" class="login-btn">Sign In</button>
+      <button type="button" class="google-btn">Sign in with google</button>
+    </form>
+    <div *ngIf="error" style="color:#ff6b6b; font-weight:600; margin-top:8px;">{{ error }}</div>
+    <div class="signup-link">
+      Don’t have an account? <a routerLink="/signup">Sign up</a>
+    </div>
+</div>

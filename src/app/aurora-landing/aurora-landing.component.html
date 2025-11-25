@@ -1,0 +1,37 @@
+<div class="aurora-container">
+
+  <header>
+    <div class="logo">
+      <!-- Clickable logo text with link to home -->
+      <a routerLink="/home" class="logo-text"> Aurora</a>
+    </div>
+
+    <nav>
+      <a routerLink="/home" routerLinkActive="active">Home</a>
+      <a routerLink="/about" routerLinkActive="active">About Us</a>
+      <a routerLink="/tasks" routerLinkActive="active">Tasks</a>
+      <a href="#" (click)="openLogin($event)">Login/Signup</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Logo (place assets/images/logo.png in your project to use a real PNG) -->
+    <!-- Image element now carries the home-logo and fade-in classes directly -->
+   
+
+    <div class="title fade-in">
+       <img src="assets/images/logo.png" alt="Aurora logo" class="logo-img home-logo fade-in"
+      onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 120%22><rect rx=%2220%22 width=%22120%22 height=%22120%22 fill=%22%237f00ff%22/><text x=%2250%25%22 y=%2254%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Poppins%2C%20sans-serif%22 font-weight=%22700%22 font-size=%2234%22 fill=%22%23fff%22>A</text></svg>'" />
+      <h1 class="pop">Aurora</h1>
+      <p>"Lighting the Way to Confident Reading"</p>
+    </div>
+  </main>
+
+  <!-- Login overlay (rendered in-place, on top of the home view) -->
+  <div *ngIf="showLogin" class="login-overlay" (click)="closeLogin()">
+    <div class="login-overlay-inner" (click)="$event.stopPropagation()">
+      <app-login></app-login>
+    </div>
+  </div>
+
+</div>

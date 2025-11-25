@@ -1,0 +1,80 @@
+<div class="signup-page">
+<div class="signup-wrapper">
+  <h1>Create Account</h1>
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <div class="form-grid">
+      <div class="form-row">
+        <label>Username *</label>
+        <input formControlName="username" placeholder="unique username" />
+        <div class="error" *ngIf="f.username.touched && f.username.invalid">Username must be 3+ chars alphanumeric/_-</div>
+        <div class="error" *ngIf="!f.username.invalid && usernameTaken()">Username already taken</div>
+      </div>
+      <div class="form-row">
+        <label>Email *</label>
+        <input formControlName="email" type="email" placeholder="you@example.com" />
+        <div class="error" *ngIf="f.email.touched && f.email.invalid">Valid email required</div>
+      </div>
+    </div>
+    <div formGroupName="passwordGroup" class="form-row full-width password-group-wrapper">
+      <div class="password-grid">
+        <div class="form-row">
+          <label>Password *</label>
+          <input [formControl]="pg.password" type="password" placeholder="min 6 chars" />
+          <div class="error" *ngIf="pg.password.touched && pg.password.invalid">Password min length 6</div>
+        </div>
+        <div class="form-row">
+          <label>Confirm Password *</label>
+          <input [formControl]="pg.confirmPassword" type="password" placeholder="repeat password" />
+          <div class="error" *ngIf="(pg.confirmPassword.touched || pg.password.touched) && form.get('passwordGroup')?.errors?.passwordMismatch">Passwords do not match</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="form-row">
+        <label>First Name *</label>
+        <input formControlName="firstName" />
+        <div class="error" *ngIf="f.firstName.touched && f.firstName.invalid">First name required</div>
+      </div>
+      <div class="form-row">
+        <label>Last Name</label>
+        <input formControlName="lastName" />
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="form-row">
+        <label>Phone</label>
+        <input formControlName="phone" placeholder="+1 555 123 4567" />
+        <div class="error" *ngIf="f.phone.touched && f.phone.invalid">Invalid phone format</div>
+      </div>
+      <div class="form-row">
+        <label>Date of Birth</label>
+        <input formControlName="dateOfBirth" type="date" />
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="form-row">
+        <label>City</label>
+        <input formControlName="city" />
+      </div>
+      <div class="form-row">
+        <label>Country</label>
+        <input formControlName="country" />
+      </div>
+    </div>
+    <div class="form-row full-width">
+      <label><input type="checkbox" formControlName="newsletter" /> Subscribe to newsletter</label>
+    </div>
+    <div class="form-row full-width">
+      <label>About Me (max 500 chars)</label>
+      <textarea formControlName="aboutMe" rows="4"></textarea>
+      <div class="error" *ngIf="f.aboutMe.touched && f.aboutMe.invalid">Max 500 characters</div>
+    </div>
+    <button type="submit" class="primary-btn" [disabled]="submitting">Sign Up</button>
+  </form>
+
+  <div class="post-signup" *ngIf="csvData">
+    <p>User <strong>{{ savedUserName }}</strong> registered.</p>
+    <button (click)="downloadCsv()" class="secondary-btn">Download CSV</button>
+  </div>
+</div>
+</div>

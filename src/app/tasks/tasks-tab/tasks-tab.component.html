@@ -1,0 +1,101 @@
+<div class="tasks-layout">
+  <!-- Left Sidebar -->
+  <aside class="sidebar">
+    <nav class="sidebar-nav">
+      <a routerLink="/tasks/tool1" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">🔧</span>
+        <span class="nav-label">Tool 1</span>
+      </a>
+      <a routerLink="/tasks/tool2" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">🔧</span>
+        <span class="nav-label">Tool 2</span>
+      </a>
+      <a routerLink="/tasks/tool3" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">🔧</span>
+        <span class="nav-label">Tool 3</span>
+      </a>
+      <a routerLink="/tasks/tool4" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">🔧</span>
+        <span class="nav-label">Tool 4</span>
+      </a>
+      <a routerLink="/tasks/tool5" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">🔧</span>
+        <span class="nav-label">Tool 5</span>
+      </a>
+    </nav>
+    <div class="sidebar-calendar">
+      <div class="calendar-header">
+        <button class="calendar-nav-btn" (click)="previousMonth()">&lt;</button>
+        <span class="calendar-month">{{ currentMonth }} {{ currentYear }}</span>
+        <button class="calendar-nav-btn" (click)="nextMonth()">&gt;</button>
+      </div>
+      <div class="calendar-grid">
+        <div class="calendar-day-header">S</div>
+        <div class="calendar-day-header">M</div>
+        <div class="calendar-day-header">T</div>
+        <div class="calendar-day-header">W</div>
+        <div class="calendar-day-header">T</div>
+        <div class="calendar-day-header">F</div>
+        <div class="calendar-day-header">S</div>
+        <div *ngFor="let day of calendarDays" 
+             class="calendar-day"
+             [class.today]="day.isToday"
+             [class.selected]="day.isSelected"
+             [class.other-month]="day.isOtherMonth"
+             (click)="selectDay(day)">
+          {{ day.day }}
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-footer">
+      <button class="settings-btn">
+        <span class="settings-icon">⚙️</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="main-content">
+    <!-- Task content will be displayed here -->
+    <div class="task-content-area">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+    <section class="tasks-panel">
+      <div class="user-info-wrapper" *ngIf="userName">
+        <div class="user-avatar-large">{{ userInitials }}</div>
+        <div class="user-info-panel">
+          <span class="user-name">{{ userName }}</span>
+          <button class="help-btn" title="Help">?</button>
+          <button class="settings-btn-top" title="Settings">⚙️</button>
+        </div>
+      </div>
+      <div class="tasks-container">
+        <h1 class="tasks-title">Tasks</h1>
+        <div class="tasks-content">
+          <a routerLink="/tasks/task1" routerLinkActive="active" class="task-item">
+            <span class="task-icon">📝</span>
+            <span class="task-label">Task 1</span>
+          </a>
+          <a routerLink="/tasks/task2" routerLinkActive="active" class="task-item">
+            <span class="task-icon">📝</span>
+            <span class="task-label">Task 2</span>
+          </a>
+          <a routerLink="/tasks/task3" routerLinkActive="active" class="task-item">
+            <span class="task-icon">📝</span>
+            <span class="task-label">Task 3</span>
+          </a>
+          <a routerLink="/tasks/task4" routerLinkActive="active" class="task-item">
+            <span class="task-icon">📝</span>
+            <span class="task-label">Task 4</span>
+          </a>
+          <a routerLink="/tasks/task5" routerLinkActive="active" class="task-item">
+            <span class="task-icon">📝</span>
+            <span class="task-label">Task 5</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+</div>

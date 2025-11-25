@@ -1,0 +1,21 @@
+<header class="app-header">
+  <div class="header-left">
+    <div class="brand">
+      <span class="brand-logo">Aurora</span>
+      <span class="brand-tag">Lighting the Way to Confident Reading</span>
+    </div>
+  </div>
+  <nav class="header-nav">
+    <ng-container *ngIf="!isLoggedIn; else loggedInMenu">
+      <a routerLink="/home" routerLinkActive="active" class="header-link">Home</a>
+      <a routerLink="/about" routerLinkActive="active" class="header-link">About</a>
+      <a (click)="openLogin()" class="header-link">Login</a>
+    </ng-container>
+    <ng-template #loggedInMenu>
+      <a routerLink="/home" routerLinkActive="active" class="header-link">Home</a>
+      <a routerLink="/about" routerLinkActive="active" class="header-link">About</a>
+      <a routerLink="/tasks" routerLinkActive="active" class="header-link">Tasks</a>
+      <app-settings></app-settings>
+    </ng-template>
+  </nav>
+</header>

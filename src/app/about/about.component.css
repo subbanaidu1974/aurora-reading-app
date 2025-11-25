@@ -1,0 +1,48 @@
+.about-page {
+  min-height: 100vh;
+  width: 100%;
+  /* Inherit global aurora background */
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 60px 48px;
+  box-sizing: border-box;
+  font-family: 'Poppins', Arial, sans-serif;
+}
+
+
+.about-content {
+  max-width: 760px;
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(2px);
+  border-radius: 24px;
+  padding: 40px 48px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.18);
+  color: #083d47;
+}
+
+.about-content h2 {
+  margin-top: 0;
+  font-size: 40px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #19d3c5;
+}
+
+.about-content p {
+  font-size: 16px;
+  line-height: 1.7;
+  margin: 18px 0 0 0;
+}
+
+@media (max-width: 768px) {
+  .about-page {
+    padding: 40px 24px;
+  }
+  .about-content {
+    padding: 32px 28px;
+  }
+  .about-content h2 {
+    font-size: 32px;
+  }
+}

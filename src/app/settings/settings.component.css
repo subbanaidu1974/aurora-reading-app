@@ -1,0 +1,46 @@
+.settings-wrapper { position: relative; }
+.gear-btn { 
+  background: rgba(255,255,255,0.16); 
+  border: 1px solid rgba(255,255,255,0.35); 
+  color:#fff; 
+  width:44px; 
+  height:44px; 
+  display:flex; 
+  align-items:center; 
+  justify-content:center; 
+  border-radius:50%; 
+  cursor:pointer; 
+  transition: background .18s ease, box-shadow .18s ease, transform .18s ease;
+  backdrop-filter: blur(4px);
+}
+.gear-btn:hover { background:#19d3c5; color:#083d47; box-shadow:0 4px 10px rgba(0,0,0,0.25); transform:rotate(20deg); }
+.settings-menu { 
+  position:absolute; 
+  top:54px; 
+  right:0; 
+  background:rgba(0,0,0,0.75); 
+  border:1px solid rgba(255,255,255,0.25); 
+  padding:10px 12px; 
+  border-radius:14px; 
+  min-width:140px; 
+  display:flex; 
+  flex-direction:column; 
+  gap:8px; 
+  box-shadow:0 8px 24px rgba(0,0,0,0.4); 
+  z-index:1200;
+}
+.menu-item { 
+  background:#19d3c5; 
+  color:#083d47; 
+  border:none; 
+  padding:10px 14px; 
+  font-weight:600; 
+  border-radius:10px; 
+  cursor:pointer; 
+  transition:background .18s ease; 
+}
+.menu-item:hover { background:#13b3a7; }
+@media (max-width:768px){
+  .gear-btn { width:38px; height:38px; }
+  .settings-menu { top:48px; }
+}

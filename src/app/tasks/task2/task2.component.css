@@ -1,0 +1,18 @@
+.task-detail {
+  padding: 32px;
+  background: #fff;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.task-detail h2 {
+  color: #0a5f6e;
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.task-detail p {
+  color: #333;
+  font-size: 16px;
+  line-height: 1.6;
+}
