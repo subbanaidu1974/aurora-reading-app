@@ -70,6 +70,7 @@
   transition: all 0.2s ease;
   font-size: 15px;
   font-weight: 500;
+  cursor: pointer;
 }
 
 .nav-item:hover {
@@ -91,6 +92,60 @@
 }
 
 .nav-label {
+  flex: 1;
+}
+
+.expand-arrow {
+  font-size: 12px;
+  transition: transform 0.3s ease;
+}
+
+.nav-item-group {
+  position: relative;
+}
+
+.sub-nav {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.sub-nav.expanded {
+  max-height: 200px;
+}
+
+.sub-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 24px 10px 52px;
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.sub-nav-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.sub-nav-item.active {
+  background: rgba(25, 211, 197, 0.2);
+  color: #19d3c5;
+  border-left: 3px solid #19d3c5;
+  padding-left: 49px;
+}
+
+.sub-icon {
+  font-size: 16px;
+  width: 20px;
+  text-align: center;
+}
+
+.sub-label {
   flex: 1;
 }
 
@@ -348,12 +403,197 @@
 .tasks-container {
   background: #ffffff;
   margin: 24px 24px 12px 24px;
-  border-radius: 24px;
+  border-radius: 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
+  padding: 24px;
+}
+
+.tasks-section-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 20px 0;
+  padding: 0;
+}
+
+.tasks-section {
+  margin-bottom: 24px;
+}
+
+.section-header {
+  font-size: 12px;
+  font-weight: 600;
+  color: #999;
+  letter-spacing: 0.5px;
+  margin: 0 0 12px 0;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.2s ease;
+}
+
+.section-header:hover {
+  color: #666;
+}
+
+.section-header .expand-arrow {
+  font-size: 10px;
+  transition: transform 0.2s ease;
+}
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.task-item-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+  border-left: 4px solid transparent;
+}
+
+.task-item-card.overdue-task {
+  border-left-color: #ff3b30;
+  background: #fff5f5;
+}
+
+.task-item-card.overdue-task:hover {
+  background: #ffe5e5;
+}
+
+.task-item-card.today-task {
+  border-left-color: #007aff;
+  background: #f0f7ff;
+}
+
+.task-item-card.today-task:hover {
+  background: #e0efff;
+}
+
+.task-item-card.thisweek-task {
+  border-left-color: #34c759;
+  background: #f0fff4;
+}
+
+.task-item-card.thisweek-task:hover {
+  background: #e0ffe8;
+}
+
+.task-item-card.later-task {
+  border-left-color: #8e8e93;
+  background: #f9f9f9;
+}
+
+.task-item-card:hover {
+  background: #f0f0f0;
+}
+
+.task-checkbox {
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+
+.task-checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #0a5f6e;
+}
+
+.task-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.task-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4px;
+  line-height: 1.3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.task-priority-badge {
+  font-size: 9px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 10px;
+  color: white;
+  white-space: nowrap;
+  flex-shrink: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.task-subtitle {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 2px;
+}
+
+.task-details {
+  font-size: 11px;
+  color: #999;
+}
+
+.task-category {
+  flex: 1;
+}
+
+.task-info-btn {
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info-icon {
+  font-size: 16px;
+  color: #999;
+  transition: color 0.2s ease;
+}
+
+.task-info-btn:hover .info-icon {
+  color: #666;
+}
+
+.show-more {
+  margin-top: 8px;
+  text-align: center;
+}
+
+.show-more a {
+  font-size: 13px;
+  color: #0a5f6e;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.show-more a:hover {
+  text-decoration: underline;
 }
 
 .tasks-title {

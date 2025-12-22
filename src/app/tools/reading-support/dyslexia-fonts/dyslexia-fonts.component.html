@@ -1,0 +1,85 @@
+<div class="feature-detail">
+  <h2>Dyslexia-Friendly Fonts & Themes</h2>
+  <p class="description">Customize your reading experience with OpenDyslexic font and other accessibility options</p>
+  
+  <!-- Controls Section -->
+  <div class="controls-section">
+    <div class="controls-grid">
+      <!-- Font Selection -->
+      <div class="control-group">
+        <label>Font Family</label>
+        <select [(ngModel)]="selectedFont" class="control-input">
+          <option *ngFor="let font of fonts" [value]="font.value">{{ font.name }}</option>
+        </select>
+      </div>
+      
+      <!-- Font Size -->
+      <div class="control-group">
+        <label>Font Size: {{ fontSize }}px</label>
+        <input type="range" min="12" max="32" step="1" [(ngModel)]="fontSize" class="control-slider">
+      </div>
+      
+      <!-- Letter Spacing -->
+      <div class="control-group">
+        <label>Letter Spacing: {{ letterSpacing }}px</label>
+        <input type="range" min="-2" max="10" step="0.5" [(ngModel)]="letterSpacing" class="control-slider">
+      </div>
+      
+      <!-- Word Spacing -->
+      <div class="control-group">
+        <label>Word Spacing: {{ wordSpacing }}px</label>
+        <input type="range" min="0" max="20" step="1" [(ngModel)]="wordSpacing" class="control-slider">
+      </div>
+      
+      <!-- Line Height -->
+      <div class="control-group">
+        <label>Line Height: {{ lineHeight.toFixed(1) }}</label>
+        <input type="range" min="1" max="3" step="0.1" [(ngModel)]="lineHeight" class="control-slider">
+      </div>
+      
+      <!-- Background Color -->
+      <div class="control-group">
+        <label>Background Color</label>
+        <select [(ngModel)]="backgroundColor" class="control-input">
+          <option *ngFor="let color of backgroundColors" [value]="color.value">{{ color.name }}</option>
+        </select>
+      </div>
+      
+      <!-- Text Color -->
+      <div class="control-group">
+        <label>Text Color</label>
+        <input type="color" [(ngModel)]="textColor" class="control-color">
+      </div>
+      
+      <!-- Overlay Color -->
+      <div class="control-group">
+        <label>Overlay Color</label>
+        <select [(ngModel)]="overlayColor" class="control-input">
+          <option *ngFor="let overlay of overlayColors" [value]="overlay.value">{{ overlay.name }}</option>
+        </select>
+      </div>
+      
+      <!-- Reading Guide -->
+      <div class="control-group">
+        <label>
+          <input type="checkbox" [(ngModel)]="showReadingGuide" class="control-checkbox">
+          Show Reading Guide
+        </label>
+      </div>
+    </div>
+    
+    <div class="button-group">
+      <button (click)="resetSettings()" class="reset-btn">Reset to Default</button>
+    </div>
+  </div>
+  
+  <!-- Live Preview Section -->
+  <div class="preview-section">
+    <h3>Live Preview</h3>
+    <div class="preview-container" [ngStyle]="getPreviewStyle()">
+      <div class="overlay" [ngStyle]="getOverlayStyle()" *ngIf="overlayColor !== 'none'"></div>
+      <div class="reading-guide" *ngIf="showReadingGuide"></div>
+      <p>{{ sampleText }}</p>
+    </div>
+  </div>
+</div>

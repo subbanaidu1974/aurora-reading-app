@@ -1,7 +1,13 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatChipsModule } from '@angular/material/chips';
 
 import { AppComponent } from './app.component';
 import { AppHeaderComponent } from './app-header/app-header.component';
@@ -9,15 +15,23 @@ import { AuroraLandingComponent } from './aurora-landing/aurora-landing.componen
 import { AboutComponent } from './about/about.component';
 import { LoginComponent } from './login/login.component';
 import { TasksTabComponent } from './tasks/tasks-tab/tasks-tab.component';
-import { Task1Component } from './tasks/task1/task1.component';
-import { Task2Component } from './tasks/task2/task2.component';
-import { Task3Component } from './tasks/task3/task3.component';
-import { Task4Component } from './tasks/task4/task4.component';
-import { Task5Component } from './tasks/task5/task5.component';
-import { Tool1Component } from './tools/tool1/tool1.component';
-import { Tool2Component } from './tools/tool2/tool2.component';
-import { Tool3Component } from './tools/tool3/tool3.component';
-import { Tool4Component } from './tools/tool4/tool4.component';
+import { StudyOrganizationToolsComponent } from './tools/study-organization-tools/study-organization-tools.component';
+import { NotesComponent } from './tools/study-organization-tools/notes/notes.component';
+import { CalendarTasksComponent } from './tools/study-organization-tools/calendar-tasks/calendar-tasks.component';
+import { MindMappingComponent } from './tools/study-organization-tools/mind-mapping/mind-mapping.component';
+import { FlashcardsComponent } from './tools/study-organization-tools/flashcards/flashcards.component';
+import { DictionaryComponent } from './tools/study-organization-tools/dictionary/dictionary.component';
+import { TextHighlightingComponent } from './tools/study-organization-tools/text-highlighting/text-highlighting.component';
+import { VisualAccessibilitySettingsComponent } from './tools/visual-accessibility-settings/visual-accessibility-settings.component';
+import { CustomizableDisplayComponent } from './tools/visual-accessibility-settings/customizable-display/customizable-display.component';
+import { ScreenOverlayComponent } from './tools/visual-accessibility-settings/screen-overlay/screen-overlay.component';
+import { ImmersiveReaderComponent } from './tools/visual-accessibility-settings/immersive-reader/immersive-reader.component';
+import { ReadingSupportComponent } from './tools/reading-support/reading-support.component';
+import { TextToSpeechComponent } from './tools/reading-support/text-to-speech/text-to-speech.component';
+import { SpeechToTextComponent } from './tools/reading-support/speech-to-text/speech-to-text.component';
+import { DyslexiaFontsComponent } from './tools/reading-support/dyslexia-fonts/dyslexia-fonts.component';
+import { AudiobookSupportComponent } from './tools/reading-support/audiobook-support/audiobook-support.component';
+import { WritingAssistanceComponent } from './tools/writing-assistance/writing-assistance.component';
 import { Tool5Component } from './tools/tool5/tool5.component';
 import { SignupComponent } from './signup/signup.component';
 import { SettingsComponent } from './settings/settings.component';
@@ -30,23 +44,37 @@ import { SettingsComponent } from './settings/settings.component';
     AboutComponent,
     LoginComponent,
     TasksTabComponent,
-    Task1Component,
-    Task2Component,
-    Task3Component,
-    Task4Component,
-    Task5Component,
-    Tool1Component,
-    Tool2Component,
-    Tool3Component,
-    Tool4Component,
+    StudyOrganizationToolsComponent,
+    NotesComponent,
+    CalendarTasksComponent,
+    MindMappingComponent,
+    FlashcardsComponent,
+    DictionaryComponent,
+    TextHighlightingComponent,
+    VisualAccessibilitySettingsComponent,
+    CustomizableDisplayComponent,
+    ScreenOverlayComponent,
+    ImmersiveReaderComponent,
+    ReadingSupportComponent,
+    TextToSpeechComponent,
+    SpeechToTextComponent,
+    DyslexiaFontsComponent,
+    AudiobookSupportComponent,
+    WritingAssistanceComponent,
     Tool5Component,
     SignupComponent,
     SettingsComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
+    MatIconModule,
+    MatButtonModule,
+    MatTooltipModule,
+    MatSliderModule,
+    MatChipsModule,
     RouterModule.forRoot([
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: AuroraLandingComponent },
@@ -56,16 +84,42 @@ import { SettingsComponent } from './settings/settings.component';
         path: 'tasks', 
         component: TasksTabComponent,
         children: [
-          { path: '', redirectTo: 'task1', pathMatch: 'full' },
-          { path: 'task1', component: Task1Component },
-          { path: 'task2', component: Task2Component },
-          { path: 'task3', component: Task3Component },
-          { path: 'task4', component: Task4Component },
-          { path: 'task5', component: Task5Component },
-          { path: 'tool1', component: Tool1Component },
-          { path: 'tool2', component: Tool2Component },
-          { path: 'tool3', component: Tool3Component },
-          { path: 'tool4', component: Tool4Component },
+          { path: '', redirectTo: 'study-organization-tools/notes', pathMatch: 'full' },
+          { 
+            path: 'study-organization-tools', 
+            component: StudyOrganizationToolsComponent,
+            children: [
+              { path: '', redirectTo: 'notes', pathMatch: 'full' },
+              { path: 'notes', component: NotesComponent },
+              { path: 'calendar-tasks', component: CalendarTasksComponent },
+              { path: 'mind-mapping', component: MindMappingComponent },
+              { path: 'flashcards', component: FlashcardsComponent },
+              { path: 'dictionary', component: DictionaryComponent },
+              { path: 'text-highlighting', component: TextHighlightingComponent }
+            ]
+          },
+          { 
+            path: 'visual-accessibility-settings', 
+            component: VisualAccessibilitySettingsComponent,
+            children: [
+              { path: '', redirectTo: 'customizable-display', pathMatch: 'full' },
+              { path: 'customizable-display', component: CustomizableDisplayComponent },
+              { path: 'screen-overlay', component: ScreenOverlayComponent },
+              { path: 'immersive-reader', component: ImmersiveReaderComponent }
+            ]
+          },
+          { 
+            path: 'reading-support', 
+            component: ReadingSupportComponent,
+            children: [
+              { path: '', redirectTo: 'text-to-speech', pathMatch: 'full' },
+              { path: 'text-to-speech', component: TextToSpeechComponent },
+              { path: 'speech-to-text', component: SpeechToTextComponent },
+              { path: 'dyslexia-fonts', component: DyslexiaFontsComponent },
+              { path: 'audiobook-support', component: AudiobookSupportComponent }
+            ]
+          },
+          { path: 'writing-assistance', component: WritingAssistanceComponent },
           { path: 'tool5', component: Tool5Component }
         ]
       },

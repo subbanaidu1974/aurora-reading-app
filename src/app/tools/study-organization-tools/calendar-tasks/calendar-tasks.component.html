@@ -1,0 +1,200 @@
+<div class="calendar-container">
+  <!-- Header with View Switcher -->
+  <div class="calendar-header">
+    <h2>📅 Calendar & Tasks</h2>
+    <div class="view-switcher">
+      <button 
+        class="view-btn"
+        [class.active]="viewMode === 'month'"
+        (click)="switchView('month')">
+        Month
+      </button>
+      <button 
+        class="view-btn"
+        [class.active]="viewMode === 'week'"
+        (click)="switchView('week')">
+        Week
+      </button>
+      <button 
+        class="view-btn"
+        [class.active]="viewMode === 'agenda'"
+        (click)="switchView('agenda')">
+        Agenda
+      </button>
+    </div>
+  </div>
+
+  <div class="calendar-content">
+    <!-- Task Detail View -->
+    <div class="task-detail-view" *ngIf="selectedTask">
+      <div class="detail-header">
+        <button class="back-btn" (click)="closeTaskDetail()">
+          <span class="back-arrow">←</span> Back to Calendar
+        </button>
+        <button class="icon-btn-complete" 
+                (click)="toggleTaskCompleteAndStopPropagation(selectedTask, $event)"
+                [title]="selectedTask.completed ? 'Mark as Incomplete' : 'Mark as Complete'">
+          <mat-icon>{{ selectedTask.completed ? 'check_circle' : 'radio_button_unchecked' }}</mat-icon>
+        </button>
+      </div>
+      
+      <div class="detail-content">
+        <div class="detail-card" [style.border-left]="'5px solid ' + getPriorityColor(selectedTask.priority)">
+          <h2 class="detail-card-title">Task Details</h2>
+          <div class="detail-row">
+            <label>Title</label>
+            <p class="detail-value">{{ selectedTask.title }}</p>
+          </div>
+          
+          <div class="detail-row">
+            <label>Description</label>
+            <p class="detail-value">{{ selectedTask.description }}</p>
+          </div>
+          
+          <div class="detail-row-group">
+            <div class="detail-row half">
+              <label>Date</label>
+              <p class="detail-value">{{ formatDate(selectedTask.date) }}</p>
+            </div>
+            
+            <div class="detail-row half" *ngIf="selectedTask.time">
+              <label>Time</label>
+              <p class="detail-value">{{ formatTime(selectedTask.time) }}</p>
+            </div>
+          </div>
+          
+          <div class="detail-row-group">
+            <div class="detail-row half">
+              <label>Priority</label>
+              <p class="detail-value">
+                <span class="priority-badge" [style.background-color]="getPriorityColor(selectedTask.priority)">
+                  {{ selectedTask.priority }}
+                </span>
+              </p>
+            </div>
+            
+            <div class="detail-row half">
+              <label>Category</label>
+              <p class="detail-value">{{ selectedTask.category }}</p>
+            </div>
+          </div>
+          
+          <div class="detail-row">
+            <label>Status</label>
+            <p class="detail-value">
+              <span class="status-badge" [class.completed]="selectedTask.completed">
+                {{ selectedTask.completed ? 'Completed' : 'Pending' }}
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Calendar View -->
+    <div class="calendar-section" *ngIf="!selectedTask">
+      <!-- Month View -->
+      <div class="month-view" *ngIf="viewMode === 'month'">
+        <div class="calendar-nav">
+          <button class="nav-btn" (click)="previousMonth()">‹</button>
+          <h3>{{ getMonthYear() }}</h3>
+          <button class="nav-btn" (click)="nextMonth()">›</button>
+        </div>
+
+        <div class="calendar-grid">
+          <div class="weekday-header" *ngFor="let day of ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']">
+            {{ day }}
+          </div>
+
+          <div 
+            *ngFor="let day of calendarDays"
+            class="calendar-day"
+            [class.other-month]="!day.isCurrentMonth"
+            [class.today]="day.isToday"
+            [class.selected]="day.isSelected"
+            (click)="selectDate(day)">
+            <span class="day-number">{{ day.day }}</span>
+            <div class="day-tasks">
+              <div 
+                *ngFor="let task of day.tasks.slice(0, 3)"
+                class="task-item"
+                [style.border-left-color]="getPriorityColor(task.priority)"
+                [title]="task.title + ': ' + task.description"
+                (click)="selectTaskAndStop(task, $event)">
+                <span class="task-text">{{ task.title }}</span>
+                <span class="task-desc" *ngIf="task.description">{{ task.description }}</span>
+              </div>
+              <span *ngIf="day.tasks.length > 3" class="more-tasks">+{{ day.tasks.length - 3 }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Week View -->
+      <div class="week-view" *ngIf="viewMode === 'week'">
+        <div class="calendar-nav">
+          <button class="nav-btn" (click)="previousWeek()">‹</button>
+          <h3>{{ getWeekRange() }}</h3>
+          <button class="nav-btn" (click)="nextWeek()">›</button>
+        </div>
+
+        <div class="week-grid">
+          <div *ngFor="let day of weekDays" class="week-day">
+            <div class="week-day-header">
+              <span class="day-name">{{ getDayName(day.date) }}</span>
+              <span class="day-date">{{ day.date.getDate() }}</span>
+            </div>
+            <div class="week-day-tasks">
+              <div 
+                *ngFor="let task of day.tasks"
+                class="week-task"
+                [style.border-left-color]="getPriorityColor(task.priority)"
+                (click)="selectTask(task)">
+                <div class="task-time" *ngIf="task.time">{{ formatTime(task.time) }}</div>
+                <div class="task-title">{{ task.title }}</div>
+              </div>
+              <div *ngIf="day.tasks.length === 0" class="no-tasks">No tasks</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Agenda View -->
+      <div class="agenda-view" *ngIf="viewMode === 'agenda'">
+        <div class="agenda-header">
+          <h3>Upcoming Tasks</h3>
+        </div>
+
+        <div class="agenda-list">
+          <div *ngFor="let task of upcomingTasks" class="agenda-item" (click)="selectTask(task)">
+            <div class="agenda-date">
+              <div class="date-box">
+                <span class="date-month">{{ formatDate(task.date).split(' ')[0] }}</span>
+                <span class="date-day">{{ task.date.getDate() }}</span>
+              </div>
+            </div>
+            <div class="agenda-task-info">
+              <h4>{{ task.title }}</h4>
+              <p>{{ task.description }}</p>
+              <div class="agenda-meta">
+                <span class="task-category">{{ task.category }}</span>
+                <span class="task-time" *ngIf="task.time">{{ formatTime(task.time) }}</span>
+                <span class="task-priority" [style.color]="getPriorityColor(task.priority)">
+                  {{ task.priority }}
+                </span>
+              </div>
+            </div>
+            <button class="complete-btn" (click)="toggleTaskCompleteAndStopPropagation(task, $event)">
+              {{ task.completed ? '✓' : '○' }}
+            </button>
+          </div>
+
+          <div *ngIf="upcomingTasks.length === 0" class="empty-agenda">
+            <div class="empty-icon">📋</div>
+            <p>No upcoming tasks</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

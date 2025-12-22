@@ -1,0 +1,102 @@
+<div class="feature-detail">
+  <div class="header-section">
+    <h2>Speech-to-Text Converter</h2>
+    <div class="language-selector">
+      <label for="language-select">Language:</label>
+      <select id="language-select" [(ngModel)]="language" (change)="onLanguageChange()" class="language-select">
+        <option *ngFor="let lang of languages" [value]="lang.code">
+          {{ lang.name }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <p class="description">Convert your speech to text in real-time using your device's microphone</p>
+
+  <!-- Font Settings Info -->
+  <div class="info-banner">
+    💡 To customize font and display settings, visit the <a routerLink="/tasks/reading-support/dyslexia-fonts">Dyslexia Fonts</a> page
+  </div>
+
+  <!-- Browser Support Warning -->
+  <div class="warning-banner" *ngIf="!recognitionSupported">
+    ⚠️ Speech recognition is not supported in your browser. Please use Chrome, Edge, or Safari.
+  </div>
+
+  <!-- Transcript Display -->
+  <div class="transcript-section">
+    <h3>Transcript</h3>
+    <div class="transcript-container" [ngStyle]="getTranscriptStyle()">
+      <!-- Overlay -->
+      <div class="overlay" [ngStyle]="getOverlayStyle()" *ngIf="fontSettings.overlayColor !== 'none'"></div>
+      
+      <!-- Reading Guide -->
+      <div class="reading-guide" *ngIf="fontSettings.showReadingGuide"></div>
+      
+      <!-- Status Indicator Inside Transcript -->
+      <div class="status-indicator" [class.listening]="isListening">
+        <span class="status-icon">{{ isListening ? '🔴' : '⚪' }}</span>
+        <span class="status-text">{{ isListening ? 'Listening...' : 'Not listening' }}</span>
+      </div>
+      
+      <!-- Action Buttons Inside Transcript -->
+      <div class="transcript-actions">
+        <button 
+          mat-icon-button
+          (click)="startListening()" 
+          [disabled]="isListening || !recognitionSupported"
+          class="action-icon-btn"
+          matTooltip="Start recording">
+          <mat-icon>mic</mat-icon>
+        </button>
+        
+        <button 
+          mat-icon-button
+          (click)="stopListening()" 
+          [disabled]="!isListening"
+          class="action-icon-btn"
+          matTooltip="Stop recording">
+          <mat-icon>stop</mat-icon>
+        </button>
+        
+        <button 
+          mat-icon-button
+          (click)="clearTranscript()" 
+          [disabled]="!transcript && !interimTranscript"
+          class="action-icon-btn"
+          matTooltip="Clear all text">
+          <mat-icon>delete</mat-icon>
+        </button>
+        
+        <button 
+          mat-icon-button
+          (click)="copyToClipboard()" 
+          [disabled]="!transcript"
+          class="action-icon-btn"
+          matTooltip="Copy to clipboard">
+          <mat-icon>content_copy</mat-icon>
+        </button>
+        
+        <button 
+          mat-icon-button
+          (click)="downloadAsText()" 
+          [disabled]="!transcript"
+          class="action-icon-btn"
+          matTooltip="Download as text file">
+          <mat-icon>download</mat-icon>
+        </button>
+      </div>
+      
+      <div class="transcript-text" *ngIf="transcript || interimTranscript; else placeholder">
+        <span class="final-text">{{ transcript }}</span>
+        <span class="interim-text" *ngIf="interimTranscript">{{ interimTranscript }}</span>
+      </div>
+      <ng-template #placeholder>
+        <div class="placeholder-text">
+          <p>🎙️ Click the microphone icon and speak into your microphone</p>
+          <p>Your speech will appear here as text in real-time</p>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

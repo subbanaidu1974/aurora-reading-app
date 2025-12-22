@@ -1,0 +1,176 @@
+<div class="notes-container">
+  <!-- Sidebar with Folders -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h2>📝 Notes</h2>
+      <button class="new-note-btn" (click)="createNewNote()" title="New Note">
+        <span>+</span>
+      </button>
+    </div>
+
+    <div class="search-box">
+      <input 
+        type="text" 
+        placeholder="🔍 Search notes..."
+        [(ngModel)]="searchQuery"
+        class="search-input">
+    </div>
+
+    <div class="folders-list">
+      <div 
+        *ngFor="let folder of folders"
+        class="folder-item"
+        [class.active]="selectedFolder === folder.name"
+        (click)="selectFolder(folder.name)">
+        <span class="folder-icon">{{ folder.icon }}</span>
+        <span class="folder-name">{{ folder.name }}</span>
+        <span class="folder-count">{{ folder.count }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notes List -->
+  <div class="notes-list">
+    <div class="notes-list-header">
+      <h3>{{ selectedFolder }}</h3>
+      <span class="notes-count">{{ getFilteredNotes().length }} notes</span>
+    </div>
+
+    <div class="notes-scroll">
+      <div 
+        *ngFor="let note of getFilteredNotes()"
+        class="note-item"
+        [class.selected]="selectedNote?.id === note.id"
+        (click)="selectNote(note)">
+        <div class="note-item-header">
+          <h4>{{ note.title }}</h4>
+          <button class="delete-note-btn" (click)="deleteNote(note, $event)" title="Delete">
+            🗑️
+          </button>
+        </div>
+        <p class="note-preview">{{ getPreviewText(note.content) }}</p>
+        <div class="note-meta">
+          <span class="note-date">{{ formatDate(note.lastModified) }}</span>
+          <div class="note-badges">
+            <span *ngIf="note.audioUrl" class="badge">🎙️</span>
+            <span *ngIf="note.images.length > 0" class="badge">📷 {{ note.images.length }}</span>
+            <span *ngIf="note.tags.length > 0" class="badge">🏷️ {{ note.tags.length }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="getFilteredNotes().length === 0" class="empty-state">
+        <div class="empty-icon">📝</div>
+        <p>No notes yet</p>
+        <button class="create-first-note-btn" (click)="createNewNote()">Create your first note</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Note Editor -->
+  <div class="note-editor" *ngIf="selectedNote">
+    <div class="editor-toolbar">
+      <input 
+        type="text" 
+        [(ngModel)]="selectedNote.title"
+        (ngModelChange)="updateNote()"
+        class="note-title-input"
+        placeholder="Note Title">
+      
+      <div class="toolbar-actions">
+        <select 
+          [(ngModel)]="selectedNote.folder"
+          (ngModelChange)="moveNoteToFolder($event)"
+          class="folder-select">
+          <option value="Work">💼 Work</option>
+          <option value="Personal">🏠 Personal</option>
+          <option value="Study">📚 Study</option>
+        </select>
+
+        <label class="toolbar-btn" title="Add Image">
+          📷
+          <input 
+            type="file" 
+            accept="image/*" 
+            multiple
+            (change)="onImageSelected($event)"
+            style="display: none;">
+        </label>
+
+        <button 
+          class="toolbar-btn"
+          [class.recording]="isRecording"
+          (click)="isRecording ? stopRecording() : startRecording()"
+          [title]="isRecording ? 'Stop Recording' : 'Record Audio'">
+          {{ isRecording ? '⏹️' : '🎙️' }}
+        </button>
+        
+        <span class="recording-status" *ngIf="isRecording">
+          🔴 Recording...
+        </span>
+      </div>
+    </div>
+
+    <div class="editor-content">
+      <textarea 
+        [(ngModel)]="selectedNote.content"
+        (ngModelChange)="updateNote()"
+        class="note-textarea"
+        placeholder="Start typing your note..."></textarea>
+
+      <!-- Audio Player -->
+      <div class="audio-section" *ngIf="selectedNote.audioUrl">
+        <div class="audio-player">
+          <span class="audio-label">🎙️ Audio Recording</span>
+          <audio [src]="selectedNote.audioUrl" controls></audio>
+          <button class="remove-btn" (click)="removeAudio()" title="Remove Audio">✕</button>
+        </div>
+      </div>
+
+      <!-- Images Gallery -->
+      <div class="images-section" *ngIf="selectedNote.images.length > 0">
+        <div class="images-grid">
+          <div *ngFor="let image of selectedNote.images; let i = index" class="image-item">
+            <img [src]="image" alt="Note attachment">
+            <button class="remove-image-btn" (click)="removeImage(i)" title="Remove">✕</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tags Section -->
+      <div class="tags-section">
+        <div class="tags-header">
+          <span class="tags-label">🏷️ Tags:</span>
+          <input 
+            type="text" 
+            class="tag-input"
+            placeholder="Add tag..."
+            #tagInput
+            (keyup.enter)="addTag(tagInput.value); tagInput.value = ''">
+        </div>
+        <div class="tags-list">
+          <span *ngFor="let tag of selectedNote.tags" class="tag">
+            {{ tag }}
+            <button class="remove-tag-btn" (click)="removeTag(tag)">✕</button>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="editor-footer">
+      <span class="last-modified">Last modified: {{ formatDate(selectedNote.lastModified) }}</span>
+    </div>
+  </div>
+
+  <!-- Empty State for Editor -->
+  <div class="note-editor-empty" *ngIf="!selectedNote">
+    <div class="empty-editor-content">
+      <div class="empty-editor-icon">📝</div>
+      <h3>Select a note or create a new one</h3>
+      <p>Your notes will appear here</p>
+      <button class="create-note-btn-large" (click)="createNewNote()">
+        <span>+</span> Create New Note
+      </button>
+    </div>
+  </div>
+</div>
