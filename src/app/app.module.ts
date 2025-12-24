@@ -15,14 +15,13 @@ import { AuroraLandingComponent } from './aurora-landing/aurora-landing.componen
 import { AboutComponent } from './about/about.component';
 import { LoginComponent } from './login/login.component';
 import { TasksTabComponent } from './tasks/tasks-tab/tasks-tab.component';
-import { StudyOrganizationToolsComponent } from './tools/study-organization-tools/study-organization-tools.component';
+// StudyOrganizationToolsComponent is now a standalone component
 import { NotesComponent } from './tools/study-organization-tools/notes/notes.component';
 import { CalendarTasksComponent } from './tools/study-organization-tools/calendar-tasks/calendar-tasks.component';
 import { MindMappingComponent } from './tools/study-organization-tools/mind-mapping/mind-mapping.component';
 import { FlashcardsComponent } from './tools/study-organization-tools/flashcards/flashcards.component';
 import { DictionaryComponent } from './tools/study-organization-tools/dictionary/dictionary.component';
 import { TextHighlightingComponent } from './tools/study-organization-tools/text-highlighting/text-highlighting.component';
-import { VisualAccessibilitySettingsComponent } from './tools/visual-accessibility-settings/visual-accessibility-settings.component';
 import { CustomizableDisplayComponent } from './tools/visual-accessibility-settings/customizable-display/customizable-display.component';
 import { ScreenOverlayComponent } from './tools/visual-accessibility-settings/screen-overlay/screen-overlay.component';
 import { ImmersiveReaderComponent } from './tools/visual-accessibility-settings/immersive-reader/immersive-reader.component';
@@ -35,6 +34,7 @@ import { WritingAssistanceComponent } from './tools/writing-assistance/writing-a
 import { Tool5Component } from './tools/tool5/tool5.component';
 import { SignupComponent } from './signup/signup.component';
 import { SettingsComponent } from './settings/settings.component';
+import { UserProfileCardComponent } from './user-profile-card/user-profile-card.component';
 
 @NgModule({
   declarations: [
@@ -44,14 +44,13 @@ import { SettingsComponent } from './settings/settings.component';
     AboutComponent,
     LoginComponent,
     TasksTabComponent,
-    StudyOrganizationToolsComponent,
+    
     NotesComponent,
     CalendarTasksComponent,
     MindMappingComponent,
     FlashcardsComponent,
     DictionaryComponent,
     TextHighlightingComponent,
-    VisualAccessibilitySettingsComponent,
     CustomizableDisplayComponent,
     ScreenOverlayComponent,
     ImmersiveReaderComponent,
@@ -64,6 +63,8 @@ import { SettingsComponent } from './settings/settings.component';
     Tool5Component,
     SignupComponent,
     SettingsComponent
+    ,
+    UserProfileCardComponent
   ],
   imports: [
     BrowserModule,

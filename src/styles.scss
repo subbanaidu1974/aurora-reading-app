@@ -1,0 +1,5 @@
+/* Compatibility wrapper: forward to the existing styles.css so builds
+   or source-maps referencing styles.scss resolve correctly. */
+@import './styles.css';
+
+/* You can add Sass variables or imports here if you migrate to SCSS fully. */
