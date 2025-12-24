@@ -1,3 +1,4 @@
+
 import { Component } from '@angular/core';
 import { AuthService, AuthUser } from '../../services/auth.service';
 import { Router } from '@angular/router';
@@ -39,6 +40,8 @@ export class TasksTabComponent {
   studyToolsExpanded: boolean = false;
   visualAccessibilityExpanded: boolean = false;
   readingSupportExpanded: boolean = false;
+  flashcardsExpanded: boolean = false;
+  quizEngineExpanded: boolean = false;
   
   // Task section expansion states
   overdueExpanded: boolean = true;
@@ -48,6 +51,105 @@ export class TasksTabComponent {
   
   monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
                 'July', 'August', 'September', 'October', 'November', 'December'];
+
+  // Dynamic sidebar menu model
+  sidebarCollapsed = false;
+
+  menuItems: any[] = [
+    {
+      id: 'study',
+      label: 'Study & Organization Tools',
+      icon: '📚',
+      expanded: false,
+      children: [
+        { id: 'notes', label: 'Notes', icon: '🗂️', route: 'study-organization-tools/notes' },
+        { id: 'calendar-tasks', label: 'Calendar & Tasks', icon: '📅', route: 'study-organization-tools/calendar-tasks' },
+        { id: 'mind-mapping', label: 'Mind Mapping', icon: '🗺️', route: 'study-organization-tools/mind-mapping' },
+        { id: 'flashcards', label: 'Flashcards', icon: '🃏', expanded: false, children: [
+          { id: 'quiz-mcq', label: 'MCQ Quiz', icon: '🔘', route: 'study-organization-tools/flashcards/quiz-engine/mcq' },
+          { id: 'quiz-survey', label: 'SurveyJS', icon: '📋', route: 'study-organization-tools/flashcards/quiz-engine/surveyjs' }
+        ]},
+        { id: 'dictionary', label: 'Dictionary', icon: '🔍', route: 'study-organization-tools/dictionary' },
+        { id: 'text-highlighting', label: 'Text Highlighting', icon: '✏️', route: 'study-organization-tools/text-highlighting' }
+      ]
+    },
+    {
+      id: 'visual',
+      label: 'Visual & Accessibility Settings',
+      icon: '🛠️',
+      expanded: false,
+      children: [
+        { id: 'customizable-display', label: 'Customizable Display', icon: '🎛️', route: 'visual-accessibility-settings/customizable-display' },
+        { id: 'screen-overlay', label: 'Screen Overlay', icon: '🖼️', route: 'visual-accessibility-settings/screen-overlay' },
+        { id: 'immersive-reader', label: 'Immersive Reader', icon: '📄', route: 'visual-accessibility-settings/immersive-reader' }
+      ]
+    },
+    {
+      id: 'reading',
+      label: 'Reading support',
+      icon: '📖',
+      expanded: false,
+      children: [
+        { id: 'text-to-speech', label: 'Text-to-Speech', icon: '🔊', route: 'reading-support/text-to-speech' },
+        { id: 'speech-to-text', label: 'Speech-to-Text', icon: '🎤', route: 'reading-support/speech-to-text' },
+        { id: 'dyslexia-fonts', label: 'Dyslexia Fonts', icon: '🔡', route: 'reading-support/dyslexia-fonts' },
+        { id: 'audiobook-support', label: 'Audiobook Support', icon: '🎧', route: 'reading-support/audiobook-support' }
+      ]
+    },
+    { id: 'writing', label: 'Writing Assistance', icon: '✍️', route: 'writing-assistance' }
+  ];
+
+  trackById(index: number, item: any) { return item.id; }
+
+  toggleGroup(id: string) {
+    const found = this.findItem(id, this.menuItems);
+    if (found) found.expanded = !found.expanded;
+  }
+
+  isGroupActive(group: any): boolean {
+    // mark active if current router url contains any child's route
+    if (!group || !group.children) return this.router.url.includes(group?.route || '');
+    return group.children.some((c: any) => this.router.url.includes(c.route));
+  }
+
+  minimizeSidebar() {
+    this.sidebarCollapsed = !this.sidebarCollapsed;
+  }
+
+  addMenuItem(parentId: string | null, item: any) {
+    if (!parentId) {
+      this.menuItems.push(item);
+      return;
+    }
+    const parent = this.findItem(parentId, this.menuItems);
+    if (parent) {
+      parent.children = parent.children || [];
+      parent.children.push(item);
+    }
+  }
+
+  removeMenuItem(id: string) {
+    const removeRec = (arr: any[]): boolean => {
+      const idx = arr.findIndex(i => i.id === id);
+      if (idx !== -1) { arr.splice(idx, 1); return true; }
+      for (const i of arr) {
+        if (i.children && removeRec(i.children)) return true;
+      }
+      return false;
+    };
+    removeRec(this.menuItems);
+  }
+
+  private findItem(id: string, list: any[]): any | null {
+    for (const item of list) {
+      if (item.id === id) return item;
+      if (item.children) {
+        const res = this.findItem(id, item.children);
+        if (res) return res;
+      }
+    }
+    return null;
+  }
 
   tasks: Task[] = [
     // Past tasks in December
@@ -201,25 +303,7 @@ export class TasksTabComponent {
       }
     });
     
-    // Auto-expand Reading support if on one of its sub-routes
-    if (this.isReadingSupportActive()) {
-      this.readingSupportExpanded = true;
-    }
-    
-    // Auto-expand Study Tools if on one of its sub-routes
-    if (this.isStudyToolsActive()) {
-      this.studyToolsExpanded = true;
-    }
-    
-    // Auto-expand Visual & Accessibility if on one of its sub-routes
-    if (this.isVisualAccessibilityActive()) {
-      this.visualAccessibilityExpanded = true;
-    }
-    
-    // Auto-expand Reading support if on one of its sub-routes
-    if (this.isReadingSupportActive()) {
-      this.readingSupportExpanded = true;
-    }
+    // Menus remain collapsed by default; user toggles explicitly.
   }
 
   toggleStudyTools() {
@@ -240,6 +324,14 @@ export class TasksTabComponent {
 
   toggleReadingSupport() {
     this.readingSupportExpanded = !this.readingSupportExpanded;
+  }
+
+  toggleFlashcards() {
+    this.flashcardsExpanded = !this.flashcardsExpanded;
+  }
+
+  toggleQuizEngine() {
+    this.quizEngineExpanded = !this.quizEngineExpanded;
   }
 
   isReadingSupportActive(): boolean {

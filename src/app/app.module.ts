@@ -10,6 +10,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatListModule } from '@angular/material/list';
 import { UserProfileCardComponent } from './user-profile-card/user-profile-card.component';
 import { AppComponent } from './app.component';
 import { AppHeaderComponent } from './app-header/app-header.component';
@@ -69,6 +70,7 @@ import { StudyOrganizationToolsComponent } from './tools/study-organization-tool
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
+    MatListModule,
     MatIconModule,
     MatButtonModule,
     MatTooltipModule,

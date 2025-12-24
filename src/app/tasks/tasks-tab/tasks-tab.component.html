@@ -1,102 +1,50 @@
 <div class="tasks-layout">
-  <!-- Left Sidebar -->
-  <aside class="sidebar">
+  <!-- Left Sidebar (simplified structure for reliable expansion/spacing) -->
+  <aside class="sidebar" [class.collapsed]="sidebarCollapsed">
+    <button class="collapse-toggle" (click)="minimizeSidebar()">{{ sidebarCollapsed ? '▶' : '◀' }}</button>
     <nav class="sidebar-nav">
-      <div class="nav-item-group">
-        <div class="nav-item" [class.active]="isStudyToolsActive()" (click)="toggleStudyTools()">
-          <span class="nav-icon">�</span>
-          <span class="nav-label">Study & Organization Tools</span>
-          <span class="expand-arrow">{{ studyToolsExpanded ? '▼' : '▶' }}</span>
-        </div>
-        <div class="sub-nav" [class.expanded]="studyToolsExpanded">
-          <a routerLink="study-organization-tools/notes" routerLinkActive="active" class="sub-nav-item">
-            <span class="sub-icon">�</span>
-            <span class="sub-label">Notes</span>
-          </a>
-          <a routerLink="study-organization-tools/calendar-tasks" routerLinkActive="active" class="sub-nav-item">
-            <span class="sub-icon">📅</span>
-            <span class="sub-label">Calendar & Tasks</span>
-          </a>
-          <a routerLink="study-organization-tools/mind-mapping" routerLinkActive="active" class="sub-nav-item">
-            <span class="sub-icon">🗺️</span>
-            <span class="sub-label">Mind Mapping</span>
-          </a>
-          <a routerLink="study-organization-tools/flashcards" routerLinkActive="active" class="sub-nav-item">
-            <span class="sub-icon">🃏</span>
-            <span class="sub-label">Flashcards</span>
-          </a>
-          <a routerLink="study-organization-tools/dictionary" routerLinkActive="active" class="sub-nav-item">
-            <span class="sub-icon">�</span>
-            <span class="sub-label">Dictionary</span>
-          </a>
-          <a routerLink="study-organization-tools/text-highlighting" routerLinkActive="active" class="sub-nav-item">
-            <span class="sub-icon">✏️</span>
-            <span class="sub-label">Text Highlighting</span>
-          </a>
-        </div>
-      </div>
-      
-      <div class="nav-item-group">
-        <div class="nav-item" [class.active]="isVisualAccessibilityActive()" (click)="toggleVisualAccessibility()">
-          <span class="nav-icon">�️</span>
-          <span class="nav-label">Visual & Accessibility Settings</span>
-          <span class="expand-arrow">{{ visualAccessibilityExpanded ? '▼' : '▶' }}</span>
-        </div>
-        <div class="sub-nav" [class.expanded]="visualAccessibilityExpanded">
-          <a routerLink="visual-accessibility-settings/customizable-display" routerLinkActive="active" class="sub-nav-item">
-            <span class="sub-icon">�️</span>
-            <span class="sub-label">Customizable Display</span>
-          </a>
-          <a routerLink="visual-accessibility-settings/screen-overlay" routerLinkActive="active" class="sub-nav-item">
-            <span class="sub-icon">�</span>
-            <span class="sub-label">Screen Overlay</span>
-          </a>
-          <a routerLink="visual-accessibility-settings/immersive-reader" routerLinkActive="active" class="sub-nav-item">
-            <span class="sub-icon">📄</span>
-            <span class="sub-label">Immersive Reader</span>
-          </a>
-        </div>
-      </div>
-      
-      <div class="nav-item-group">
-        <div class="nav-item" [class.active]="isReadingSupportActive()" (click)="toggleReadingSupport()">
-          <span class="nav-icon">�</span>
-          <span class="nav-label">Reading support</span>
-          <span class="expand-arrow">{{ readingSupportExpanded ? '▼' : '▶' }}</span>
-        </div>
-        <div class="sub-nav" [class.expanded]="readingSupportExpanded">
-          <a routerLink="reading-support/text-to-speech" routerLinkActive="active" class="sub-nav-item">
-            <span class="sub-icon">🔊</span>
-            <span class="sub-label">Text-to-Speech</span>
-          </a>          <a routerLink="reading-support/speech-to-text" routerLinkActive="active" class="sub-nav-item">
-            <span class="sub-icon">🎤</span>
-            <span class="sub-label">Speech-to-Text</span>
-          </a>          <a routerLink="reading-support/dyslexia-fonts" routerLinkActive="active" class="sub-nav-item">
-            <span class="sub-icon">�</span>
-            <span class="sub-label">Dyslexia Fonts</span>
-          </a>
-          <a routerLink="reading-support/audiobook-support" routerLinkActive="active" class="sub-nav-item">
-            <span class="sub-icon">🎧</span>
-            <span class="sub-label">Audiobook Support</span>
-          </a>
-        </div>
-      </div>
-      
-      <a routerLink="writing-assistance" routerLinkActive="active" class="nav-item">
-        <span class="nav-icon">✍️</span>
-        <span class="nav-label">Writing Assistance</span>
-      </a>
-      <a routerLink="tool5" routerLinkActive="active" class="nav-item">
-        <span class="nav-icon">🎯</span>
-        <span class="nav-label">Tool 5</span>
-      </a>
-    </nav>
+      <ul class="menu" role="menu">
+        <li class="menu-group" *ngFor="let group of menuItems; trackBy: trackById">
+          <div class="menu-title" (click)="toggleGroup(group.id)" [class.active]="isGroupActive(group)">
+            <span class="nav-icon">{{ group.icon }}</span>
+            <span class="nav-label" *ngIf="!sidebarCollapsed">{{ group.label }}</span>
+            <span class="expand-arrow" *ngIf="group.children && !sidebarCollapsed">{{ group.expanded ? '▼' : '▶' }}</span>
+          </div>
 
-    <div class="sidebar-footer">
-      <button class="settings-btn">
-        <span class="settings-icon">⚙️</span>
-      </button>
-    </div>
+          <ul class="submenu" [class.expanded]="group.expanded && !sidebarCollapsed">
+            <li *ngFor="let child of group.children; trackBy: trackById">
+              <div *ngIf="child.children && child.children.length" class="submenu-group">
+                <div class="submenu-title" (click)="toggleGroup(child.id)">
+                  <span class="sub-icon">{{ child.icon }}</span>
+                  <span class="sub-label">{{ child.label }}</span>
+                  <span class="expand-arrow">{{ child.expanded ? '▼' : '▶' }}</span>
+                </div>
+                <ul class="sub-submenu" [class.expanded]="child.expanded">
+                  <li *ngFor="let sub of child.children; trackBy: trackById">
+                    <a class="sub-item" [routerLink]="sub.route" routerLinkActive="active" (click)="$event.stopPropagation()">
+                      <span class="sub-icon">{{ sub.icon }}</span>
+                      <span class="sub-label">{{ sub.label }}</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div *ngIf="!child.children || !child.children.length" class="submenu-leaf">
+                <a class="sub-item" [routerLink]="child.route" routerLinkActive="active" (click)="$event.stopPropagation()">
+                  <span class="sub-icon">{{ child.icon }}</span>
+                  <span class="sub-label">{{ child.label }}</span>
+                </a>
+              </div>
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <button class="settings-btn">
+          <span class="settings-icon">⚙️</span>
+        </button>
+      </div>
+    </nav>
   </aside>
 
   <!-- Main Content Area -->
