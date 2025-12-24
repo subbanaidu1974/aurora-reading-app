@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 interface Note {
   id: number;
@@ -19,7 +21,8 @@ interface Folder {
 
 @Component({
   selector: 'app-notes',
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './notes.component.html',
   styleUrls: ['./notes.component.css']
 })

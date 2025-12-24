@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { FontSettingsService } from '../../../services/font-settings.service';
 
 @Component({
   selector: 'app-dyslexia-fonts',
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './dyslexia-fonts.component.html',
   styleUrls: ['./dyslexia-fonts.component.css']
 })

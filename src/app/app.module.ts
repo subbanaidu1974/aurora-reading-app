@@ -8,7 +8,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatChipsModule } from '@angular/material/chips';
-
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatMenuModule } from '@angular/material/menu';
+import { UserProfileCardComponent } from './user-profile-card/user-profile-card.component';
 import { AppComponent } from './app.component';
 import { AppHeaderComponent } from './app-header/app-header.component';
 import { AuroraLandingComponent } from './aurora-landing/aurora-landing.component';
@@ -28,13 +30,16 @@ import { ImmersiveReaderComponent } from './tools/visual-accessibility-settings/
 import { ReadingSupportComponent } from './tools/reading-support/reading-support.component';
 import { TextToSpeechComponent } from './tools/reading-support/text-to-speech/text-to-speech.component';
 import { SpeechToTextComponent } from './tools/reading-support/speech-to-text/speech-to-text.component';
+// TextToSpeechComponent and SpeechToTextComponent are standalone components
 import { DyslexiaFontsComponent } from './tools/reading-support/dyslexia-fonts/dyslexia-fonts.component';
 import { AudiobookSupportComponent } from './tools/reading-support/audiobook-support/audiobook-support.component';
 import { WritingAssistanceComponent } from './tools/writing-assistance/writing-assistance.component';
 import { Tool5Component } from './tools/tool5/tool5.component';
 import { SignupComponent } from './signup/signup.component';
 import { SettingsComponent } from './settings/settings.component';
-import { UserProfileCardComponent } from './user-profile-card/user-profile-card.component';
+import { VisualAccessibilitySettingsComponent } from './tools/visual-accessibility-settings/visual-accessibility-settings.component';
+import { StudyOrganizationToolsComponent } from './tools/study-organization-tools/study-organization-tools.component';
+
 
 @NgModule({
   declarations: [
@@ -45,26 +50,19 @@ import { UserProfileCardComponent } from './user-profile-card/user-profile-card.
     LoginComponent,
     TasksTabComponent,
     
-    NotesComponent,
+    
     CalendarTasksComponent,
-    MindMappingComponent,
     FlashcardsComponent,
     DictionaryComponent,
     TextHighlightingComponent,
     CustomizableDisplayComponent,
     ScreenOverlayComponent,
     ImmersiveReaderComponent,
-    ReadingSupportComponent,
-    TextToSpeechComponent,
-    SpeechToTextComponent,
-    DyslexiaFontsComponent,
     AudiobookSupportComponent,
     WritingAssistanceComponent,
     Tool5Component,
     SignupComponent,
     SettingsComponent
-    ,
-    UserProfileCardComponent
   ],
   imports: [
     BrowserModule,
@@ -76,6 +74,11 @@ import { UserProfileCardComponent } from './user-profile-card/user-profile-card.
     MatTooltipModule,
     MatSliderModule,
     MatChipsModule,
+    MatToolbarModule,
+    MatMenuModule,
+    UserProfileCardComponent,
+    ReadingSupportComponent,
+    DyslexiaFontsComponent,
     RouterModule.forRoot([
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: AuroraLandingComponent },

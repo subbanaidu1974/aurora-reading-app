@@ -1,10 +1,16 @@
 import { Component, OnInit, OnDestroy, NgZone, ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { FontSettingsService, FontSettings } from '../../../services/font-settings.service';
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-speech-to-text',
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, FormsModule, MatIconModule, MatButtonModule, MatTooltipModule],
   templateUrl: './speech-to-text.component.html',
   styleUrls: ['./speech-to-text.component.css']
 })

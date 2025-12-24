@@ -1,4 +1,9 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, ChangeDetectorRef, NgZone } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import * as pdfjsLib from 'pdfjs-dist';
 import * as mammoth from 'mammoth';
 
@@ -7,7 +12,8 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs
 
 @Component({
   selector: 'app-text-to-speech',
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, FormsModule, MatIconModule, MatButtonModule, MatTooltipModule],
   templateUrl: './text-to-speech.component.html',
   styleUrls: ['./text-to-speech.component.css']
 })
