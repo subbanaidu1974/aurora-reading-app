@@ -1,0 +1,43 @@
+<div class="study-root">
+  <div class="controls">
+    <fc-category-selector (selection)="onCategory($event)"></fc-category-selector>
+    <mat-form-field appearance="outline" class="deck-select" *ngIf="(decks$ | async) as decks">
+      <mat-label>Deck</mat-label>
+      <mat-select (selectionChange)="onDeck($event.value)">
+        <ng-container *ngFor="let d of decks">
+          <mat-option *ngIf="!selectedCategory || d.categoryId === selectedCategory" [value]="d.id">{{d.name}} ({{d.cards.length}})</mat-option>
+        </ng-container>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="toggles">
+      <mat-slide-toggle [(ngModel)]="disableAnim">Disable animation</mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="focus">Focus mode</mat-slide-toggle>
+    </div>
+  </div>
+
+  <div class="card-area" *ngIf="cards && cards.length">
+    <mat-card class="study-card" [class.flipped]="flipped">
+      <mat-card-content>
+        <div class="front" *ngIf="!flipped">{{ cards[index].frontText }}</div>
+        <div class="back" *ngIf="flipped">{{ cards[index].backText }}</div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-icon-button (click)="play('front')" aria-label="Speak front"><mat-icon>volume_up</mat-icon></button>
+        <button mat-stroked-button color="warn" (click)="mark('hard')"><mat-icon>priority_high</mat-icon>&nbsp;Hard</button>
+        <button mat-stroked-button (click)="mark('ok')"><mat-icon>check</mat-icon>&nbsp;OK</button>
+        <button mat-stroked-button color="primary" (click)="mark('easy')"><mat-icon>thumb_up</mat-icon>&nbsp;Easy</button>
+      </mat-card-actions>
+    </mat-card>
+
+    <div class="nav">
+      <button mat-icon-button (click)="prev()"><mat-icon>chevron_left</mat-icon></button>
+      <div class="pos">{{ index + 1 }} / {{ cards.length }}</div>
+      <button mat-icon-button (click)="next()"><mat-icon>chevron_right</mat-icon></button>
+    </div>
+  </div>
+
+  <div *ngIf="!cards || !cards.length" class="empty">No cards in selected deck.</div>
+
+  <fc-focus-mode *ngIf="focus" [card]="cards[index]" [flipped]="flipped" (close)="closeFocus()"></fc-focus-mode>
+</div>

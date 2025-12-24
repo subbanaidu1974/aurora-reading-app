@@ -299,10 +299,12 @@
   height: auto;
 }
 
-.task-content-area {
+.task-content-area,
+.task-content-area[_ngcontent-ng-c2044753520] {
   flex: 1;
   overflow: hidden;
-  background: #ffffff;
+  background: fixed !important;
+  background-attachment: fixed;
 }
 
 /* Top Bar */

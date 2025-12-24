@@ -1,0 +1,7 @@
+:host{display:block}
+.overlay{position:fixed;inset:0;background:rgba(8,10,12,0.6);display:flex;align-items:center;justify-content:center;z-index:10000}
+.inner{background:var(--focus-bg,#FFF8E1);padding:28px;border-radius:18px;max-width:900px;width:96%;box-shadow:0 20px 60px rgba(0,0,0,0.25);border:1px solid rgba(0,0,0,0.04)}
+.close{position:absolute;top:18px;right:18px;background:transparent;border:0;font-size:20px}
+.card-wrap{display:flex;flex-direction:column;align-items:center;gap:12px}
+.front,.back{font-family:'Lexend',system-ui, -apple-system,'Segoe UI';font-size:28px;line-height:1.5;letter-spacing:0.8px;color:#111;text-align:center}
+.image{max-width:60%;border-radius:12px}

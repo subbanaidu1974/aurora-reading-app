@@ -14,3 +14,28 @@ html, body {
 :root {
   --accent: #5fc4e8;
 }
+
+
+/* Override Angular Material select overlay appearance */
+/* Move transform origin to top and give a green background for non-above panels */
+.cdk-overlay-pane:not(.mat-mdc-select-panel-above) div.mat-mdc-select-panel {
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+  transform-origin: top center !important;
+  background: green !important;
+}
+
+/* Reduce spacing between options in select dropdown */
+.mat-mdc-select-panel .mat-mdc-list .mat-mdc-list-item,
+.mat-mdc-select-panel .mat-mdc-option {
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+  min-height: 0 !important;
+  line-height: 1.1 !important;
+}
+
+/* Slightly tighter option text */
+.mat-mdc-select-panel .mat-mdc-option .mat-mdc-option-text {
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+}

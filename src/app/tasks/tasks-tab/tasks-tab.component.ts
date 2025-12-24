@@ -65,10 +65,7 @@ export class TasksTabComponent {
         { id: 'notes', label: 'Notes', icon: '🗂️', route: 'study-organization-tools/notes' },
         { id: 'calendar-tasks', label: 'Calendar & Tasks', icon: '📅', route: 'study-organization-tools/calendar-tasks' },
         { id: 'mind-mapping', label: 'Mind Mapping', icon: '🗺️', route: 'study-organization-tools/mind-mapping' },
-        { id: 'flashcards', label: 'Flashcards', icon: '🃏', expanded: false, children: [
-          { id: 'quiz-mcq', label: 'MCQ Quiz', icon: '🔘', route: 'study-organization-tools/flashcards/quiz-engine/mcq' },
-          { id: 'quiz-survey', label: 'SurveyJS', icon: '📋', route: 'study-organization-tools/flashcards/quiz-engine/surveyjs' }
-        ]},
+        { id: 'flashcards', label: 'Flashcards', icon: '🃏', route: 'study-organization-tools/flashcards' },
         { id: 'dictionary', label: 'Dictionary', icon: '🔍', route: 'study-organization-tools/dictionary' },
         { id: 'text-highlighting', label: 'Text Highlighting', icon: '✏️', route: 'study-organization-tools/text-highlighting' }
       ]

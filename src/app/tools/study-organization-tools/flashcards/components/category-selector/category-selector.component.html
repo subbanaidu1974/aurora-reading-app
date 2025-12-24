@@ -1,0 +1,18 @@
+<div class="category-grid" role="list">
+  <button
+    type="button"
+    *ngFor="let c of (categories$ | async)"
+    class="category-card"
+    [class.selected]="selectedId === c.id"
+    [attr.aria-pressed]="selectedId === c.id"
+    [style.background]="c.color"
+    (click)="select(c.id)"
+    (keydown)="onKeydown($event, c.id)"
+    tabindex="0"
+    role="listitem"
+  >
+    <mat-icon aria-hidden="true">{{ c.icon }}</mat-icon>
+    <div class="name">{{ c.name }}</div>
+  </button>
+</div>
+

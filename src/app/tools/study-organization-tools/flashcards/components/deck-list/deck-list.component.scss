@@ -1,0 +1,178 @@
+:host{display:block}
+.deck-grid{display:grid;grid-template-columns:1fr 350px;gap:20px;align-items:start}
+.create{ 
+	width: 350px;
+	justify-self: end;
+}
+.create-deck-card{
+	padding: 12px;
+	border-radius: 12px;
+	background: #e6fff1;
+	color: #0a5f6e;
+	border: 1px solid rgba(0,0,0,0.04);
+	box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+}
+
+/* Reduce form field height and add rounded corners for Material fields inside the create card */
+.create-deck-card ::ng-deep .mat-mdc-form-field {
+	border-radius: 10px;
+}
+.create-deck-card ::ng-deep .mat-mdc-text-field, .create-deck-card ::ng-deep .mat-mdc-select {
+	border-radius: 10px;
+}
+.create-deck-card ::ng-deep input.mat-mdc-text-field-input,
+.create-deck-card ::ng-deep .mat-mdc-select-trigger,
+.create-deck-card ::ng-deep textarea.mat-mdc-text-field-input{
+	padding: 6px 10px !important;
+	height: 36px !important;
+	line-height: 1.1 !important;
+	box-sizing: border-box;
+	border-radius: 8px !important;
+}
+
+/* Ensure the outline/notched outline of MDC form-field also has rounded corners */
+.create-deck-card ::ng-deep .mdc-notched-outline,
+.create-deck-card ::ng-deep .mdc-notched-outline__leading,
+.create-deck-card ::ng-deep .mdc-notched-outline__trailing,
+.create-deck-card ::ng-deep .mat-mdc-select .mdc-select__anchor {
+	border-radius: 10px !important;
+	overflow: hidden !important;
+}
+
+/* Slight visual padding on form-field wrapper so corners look consistent */
+.create-deck-card ::ng-deep .mat-mdc-form-field-wrapper {
+	border-radius: 10px !important;
+	overflow: hidden !important;
+}
+.create-flashcard{ margin-top: 18px }
+.deck-card{
+	border-radius:14px;
+	padding:12px;
+	box-shadow:0 8px 30px rgba(8,10,12,0.04);
+	background: #e6fff1; /* light green */
+	color: #0a5f6e;
+	border:1px solid rgba(10,95,110,0.08);
+}
+
+.cards-preview{
+	margin-top:12px;
+	display:flex;
+	gap:8px;
+	flex-wrap:wrap;
+}
+.decks-area{
+	display:flex;
+	flex-wrap:wrap;
+	gap:16px;
+}
+.deck-card{
+	width:250px;
+	box-sizing:border-box;
+	position: relative;
+	overflow: visible;
+}
+
+.category-tape{
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 42px;
+		display:flex;
+		align-items:center;
+		justify-content:space-between;
+		gap:8px;
+		padding: 0 8px 0 12px;
+		border-top-left-radius:14px;
+		border-top-right-radius:14px;
+		color: #fff;
+		font-weight:600;
+		box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+}
+.category-tape .cat-icon{ width:28px; height:28px; border-radius:6px; object-fit:cover; border:1px solid rgba(0,0,0,0.08); background:#fff; display:inline-flex; align-items:center; justify-content:center; font-size:18px }
+.category-tape .cat-name{ color: #072b2b; font-size: 14px; margin-left:6px }
+
+.category-tape .tape-left{ display:flex; align-items:center }
+.category-tape .tape-actions{ display:flex; gap:0; align-items:center }
+
+.category-tape .tape-actions button.mat-icon-button{
+	width:36px;
+	height:36px;
+	border-radius:50%;
+	display:inline-flex;
+	align-items:center;
+	justify-content:center;
+	box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+	background: #ffffff;
+	color: #0b8f4f;
+	border: 1px solid rgba(0,0,0,0.12);
+	margin: 0;
+	padding: 0;
+}
+.category-tape .tape-actions button[aria-label="Delete deck"]{ color: #b00020 }
+.category-tape .tape-actions button{ margin-left: 2px }
+.category-tape .tape-actions button + button{ margin-left: 0 }
+
+.deck-card mat-card-title{ margin-top:48px }
+
+/* Study button: dark green background with white icon */
+.category-tape .tape-actions button[aria-label="Study deck"]{
+	background: #0b8f4f !important;
+	color: #ffffff !important;
+	border-color: rgba(0,0,0,0.08) !important;
+}
+.category-tape .tape-actions button[aria-label="Study deck"] mat-icon{ color: #ffffff !important }
+.category-tape .tape-actions button[aria-label="Study deck"]{
+	width: 27px !important;
+	height: 27px !important;
+	padding: 0 !important;
+	background: transparent !important;
+	border: none !important;
+	box-shadow: none !important;
+	/* keep icon colored dark green */
+	color: #0b8f4f !important;
+}
+.category-tape .tape-actions button[aria-label="Study deck"] mat-icon{ font-size: 22px !important; color: #0b8f4f !important }
+.category-tape .tape-actions button[aria-label="Study deck"]:hover{ filter:brightness(0.95); transform:translateY(-2px) }
+.deck-card mat-card-title{ margin-top:48px }
+.mini-card{
+	width:120px;
+	height:64px;
+	border-radius:8px;
+	box-shadow:0 6px 16px rgba(8,10,12,0.04);
+	overflow:hidden;
+}
+.mini-front{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.full{width:100%}
+.actions{margin-top:12px}
+button.mat-flat-button,button.mat-stroked-button{border-radius:10px}
+/* Material 3 Create button style */
+.m3-create-btn{
+	background: linear-gradient(180deg,var(--md-sys-color-primary,#0b8f4f), color-mix(in srgb, var(--md-sys-color-primary,#087443) 80%));
+	color: var(--md-sys-color-on-primary,#ffffff) !important;
+	border-radius: 14px !important;
+	padding: 8px 16px !important;
+	height: 40px;
+	font-weight: 600;
+	box-shadow: 0 6px 18px rgba(11,143,79,0.14);
+	border: 1px solid rgba(0,0,0,0.06) !important;
+}
+.m3-create-btn:hover{filter:brightness(0.95)}
+@media(max-width:800px){.deck-grid{grid-template-columns:1fr}}
+
+/* Rounded icon buttons on deck cards */
+.deck-card mat-card-actions{display:flex;gap:8px;align-items:center;padding:12px}
+.deck-card button.mat-icon-button{
+	width:44px;
+	height:44px;
+	border-radius:50%;
+	display:inline-flex;
+	align-items:center;
+	justify-content:center;
+	box-shadow: 0 6px 16px rgba(8,10,12,0.06);
+	background: #ffffff;
+	color: #0b8f4f;
+	border: 1px solid rgba(0,0,0,0.04);
+}
+.deck-card button.mat-icon-button[aria-label="Delete deck"]{ color: #b00020; }
+.deck-card button.mat-icon-button:hover{ transform: translateY(-2px); filter:brightness(0.98) }

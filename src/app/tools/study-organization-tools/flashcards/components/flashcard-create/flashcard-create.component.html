@@ -1,0 +1,23 @@
+<mat-card class="create-card">
+  <mat-card-title>Create Flashcard</mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="form" (ngSubmit)="add()">
+      <mat-form-field appearance="outline" class="full"><mat-label>Front</mat-label><input matInput formControlName="frontText"/></mat-form-field>
+      <mat-form-field appearance="outline" class="full"><mat-label>Back</mat-label><textarea matInput rows="4" formControlName="backText"></textarea></mat-form-field>
+
+      <mat-form-field appearance="outline" class="half"><mat-label>Category</mat-label>
+        <mat-select formControlName="categoryId">
+          <mat-option *ngFor="let c of (availableCategories$ | async)" [value]="c.id">{{c.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="half"><mat-label>Deck</mat-label>
+        <mat-select formControlName="deckId"><mat-option *ngFor="let d of (decks$ | async)" [value]="d.id">{{d.name}} ({{d.cards.length}})</mat-option></mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full"><mat-label>Image URL (optional)</mat-label><input matInput formControlName="imageUrl"/></mat-form-field>
+
+      <div class="actions"><button mat-flat-button color="primary" type="submit"><mat-icon>add</mat-icon>&nbsp;Add Card</button></div>
+    </form>
+  </mat-card-content>
+</mat-card>

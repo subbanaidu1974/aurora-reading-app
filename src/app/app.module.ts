@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -11,6 +11,11 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { UserProfileCardComponent } from './user-profile-card/user-profile-card.component';
 import { AppComponent } from './app.component';
 import { AppHeaderComponent } from './app-header/app-header.component';
@@ -40,6 +45,12 @@ import { SignupComponent } from './signup/signup.component';
 import { SettingsComponent } from './settings/settings.component';
 import { VisualAccessibilitySettingsComponent } from './tools/visual-accessibility-settings/visual-accessibility-settings.component';
 import { StudyOrganizationToolsComponent } from './tools/study-organization-tools/study-organization-tools.component';
+// Flashcards standalone components (moved into tools)
+import { DeckListComponent } from './tools/study-organization-tools/flashcards/components/deck-list/deck-list.component';
+import { FlashcardCreateComponent } from './tools/study-organization-tools/flashcards/components/flashcard-create/flashcard-create.component';
+import { FlashcardStudyComponent } from './tools/study-organization-tools/flashcards/components/flashcard-study/flashcard-study.component';
+import { CategorySelectorComponent } from './tools/study-organization-tools/flashcards/components/category-selector/category-selector.component';
+import { FocusModeComponent } from './tools/study-organization-tools/flashcards/components/focus-mode/focus-mode.component';
 
 
 @NgModule({
@@ -50,10 +61,7 @@ import { StudyOrganizationToolsComponent } from './tools/study-organization-tool
     AboutComponent,
     LoginComponent,
     TasksTabComponent,
-    
-    
     CalendarTasksComponent,
-    FlashcardsComponent,
     DictionaryComponent,
     TextHighlightingComponent,
     CustomizableDisplayComponent,
@@ -76,9 +84,24 @@ import { StudyOrganizationToolsComponent } from './tools/study-organization-tool
     MatTooltipModule,
     MatSliderModule,
     MatChipsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatCardModule,
+    MatSlideToggleModule,
     MatToolbarModule,
     MatMenuModule,
+    FlashcardsComponent,
+    DeckListComponent,
+    FlashcardCreateComponent,
+    FlashcardStudyComponent,
+    CategorySelectorComponent,
+    FocusModeComponent,
     UserProfileCardComponent,
+    StudyOrganizationToolsComponent,
+    NotesComponent,
+    TextToSpeechComponent,
+    SpeechToTextComponent,
     ReadingSupportComponent,
     DyslexiaFontsComponent,
     RouterModule.forRoot([
@@ -99,7 +122,14 @@ import { StudyOrganizationToolsComponent } from './tools/study-organization-tool
               { path: 'notes', component: NotesComponent },
               { path: 'calendar-tasks', component: CalendarTasksComponent },
               { path: 'mind-mapping', component: MindMappingComponent },
-              { path: 'flashcards', component: FlashcardsComponent },
+              { path: 'flashcards', component: FlashcardsComponent,
+                children: [
+                  { path: '', redirectTo: 'decks', pathMatch: 'full' },
+                  { path: 'decks', component: DeckListComponent },
+                  { path: 'create', component: FlashcardCreateComponent },
+                  { path: 'study', component: FlashcardStudyComponent }
+                ]
+              },
               { path: 'dictionary', component: DictionaryComponent },
               { path: 'text-highlighting', component: TextHighlightingComponent }
             ]
@@ -131,8 +161,9 @@ import { StudyOrganizationToolsComponent } from './tools/study-organization-tool
       },
       { path: 'login', component: LoginComponent },
       { path: '**', redirectTo: 'home' }
-    ], { useHash: false })
+    ], { useHash: true })
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [],
   bootstrap: [AppComponent]
 })

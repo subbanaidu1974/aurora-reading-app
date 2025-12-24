@@ -1,7 +1,7 @@
 /* Overall Layout */
 .tasks-layout {
   display: flex;
-  height: 100vh;
+  height: 100%;
   width: 100%;
   overflow: hidden;
   font-family: 'Poppins', Arial, sans-serif;
@@ -308,10 +308,13 @@
   height: auto;
 }
 
-.task-content-area {
+.task-content-area,
+.task-content-area[_ngcontent-ng-c2044753520] {
   flex: 1;
   overflow: hidden;
-  background: #ffffff;
+  /* keep the background color but make its attachment fixed for a stable backdrop */
+  background: fixed !important;
+  background-attachment: fixed;
 }
 
 /* Top Bar */

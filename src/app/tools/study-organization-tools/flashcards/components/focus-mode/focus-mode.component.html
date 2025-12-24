@@ -1,0 +1,10 @@
+<div class="overlay" role="dialog" aria-modal="true">
+  <div class="inner">
+    <button class="close" (click)="close.emit()">✕</button>
+    <div class="card-wrap">
+      <div class="front" *ngIf="!flipped">{{ card?.frontText }}</div>
+      <div class="back" *ngIf="flipped">{{ card?.backText }}</div>
+      <img *ngIf="card?.imageUrl" [src]="card?.imageUrl" class="image" alt=""/>
+    </div>
+  </div>
+</div>
