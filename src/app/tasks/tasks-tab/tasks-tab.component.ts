@@ -1,7 +1,9 @@
 
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { AuthService, AuthUser } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 interface Task {
   id: number;
@@ -29,7 +31,7 @@ interface CalendarDay {
   styleUrls: ['./tasks-tab.component.css'],
   standalone: false
 })
-export class TasksTabComponent {
+export class TasksTabComponent implements OnDestroy {
   currentDate = new Date();
   currentMonth = '';
   currentYear = 0;
@@ -65,7 +67,17 @@ export class TasksTabComponent {
         { id: 'notes', label: 'Notes', icon: '🗂️', route: 'study-organization-tools/notes' },
         { id: 'calendar-tasks', label: 'Calendar & Tasks', icon: '📅', route: 'study-organization-tools/calendar-tasks' },
         { id: 'mind-mapping', label: 'Mind Mapping', icon: '🗺️', route: 'study-organization-tools/mind-mapping' },
-        { id: 'flashcards', label: 'Flashcards', icon: '🃏', route: 'study-organization-tools/flashcards' },
+        {
+          id: 'flashcards',
+          label: 'Flashcards',
+          icon: '🃏',
+          expanded: false,
+          children: [
+            { id: 'flashcards-decks', label: 'Decks', icon: '📑', route: 'study-organization-tools/flashcards/decks' },
+            { id: 'flashcards-cards', label: 'Cards', icon: '🗂️', route: 'study-organization-tools/flashcards/create' },
+            { id: 'flashcards-study', label: 'Study', icon: '📖', route: 'study-organization-tools/flashcards/study' }
+          ]
+        },
         { id: 'dictionary', label: 'Dictionary', icon: '🔍', route: 'study-organization-tools/dictionary' },
         { id: 'text-highlighting', label: 'Text Highlighting', icon: '✏️', route: 'study-organization-tools/text-highlighting' }
       ]
@@ -288,6 +300,8 @@ export class TasksTabComponent {
 
   constructor(private auth: AuthService, private router: Router) {}
 
+  private routerSub: Subscription | null = null;
+
   ngOnInit() {
     this.generateCalendar();
     this.auth.user$.subscribe((user: AuthUser | null) => {
@@ -299,8 +313,23 @@ export class TasksTabComponent {
         this.userInitials = '';
       }
     });
-    
-    // Menus remain collapsed by default; user toggles explicitly.
+
+    // Ensure menu expansion matches current URL on load
+    this.updateMenuExpansionFromUrl(this.router.url);
+
+    // Update menu expansion on navigation events
+    this.routerSub = this.router.events.pipe(
+      filter(e => e instanceof NavigationEnd)
+    ).subscribe((ev: any) => {
+      this.updateMenuExpansionFromUrl(ev.urlAfterRedirects || ev.url);
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.routerSub) {
+      this.routerSub.unsubscribe();
+      this.routerSub = null;
+    }
   }
 
   toggleStudyTools() {
@@ -333,6 +362,42 @@ export class TasksTabComponent {
 
   isReadingSupportActive(): boolean {
     return this.router.url.includes('/reading-support');
+  }
+
+  /**
+   * Walk the menu model and set expanded flags so groups matching the current URL are opened.
+   */
+  updateMenuExpansionFromUrl(url: string) {
+    if (!url) return;
+    const normalize = (u: string) => u.replace(/^\//, '');
+    const cur = normalize(url);
+
+    const checkItem = (item: any): boolean => {
+      let matched = false;
+      if (item.route && cur.includes(normalize(item.route))) matched = true;
+      if (item.children && item.children.length) {
+        // check children recursively
+        let anyChild = false;
+        for (const c of item.children) {
+          const childMatched = checkItem(c);
+          if (childMatched) {
+            anyChild = true;
+            // if a nested child matched, ensure intermediate groups are expanded
+            if (c.hasOwnProperty('expanded')) c.expanded = true;
+          }
+        }
+        if (anyChild) matched = true;
+      }
+      // set expanded on this item if any descendant matched
+      if (item.hasOwnProperty('expanded')) {
+        item.expanded = !!matched;
+      }
+      return matched;
+    };
+
+    for (const g of this.menuItems) {
+      checkItem(g as any);
+    }
   }
 
   getOverdueTasks(): Task[] {

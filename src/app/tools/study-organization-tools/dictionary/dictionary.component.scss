@@ -1,0 +1,110 @@
+.dict-root { 
+	--search-radius: 28px;
+	--card-bg-rgb: 255,255,255;
+	--card-alpha: 0.95;
+	--surface: rgba(var(--card-bg-rgb), var(--card-alpha));
+	--surface-strong: #f8fbfd;
+	--search-bg: linear-gradient(180deg, #ffffff 0%, #eef9f9 100%);
+	--accent: #0a5f6e;
+	--muted: rgba(4,32,38,0.6);
+	--text-color: #042026;
+	display: grid;
+	grid-template-columns: minmax(0, 880px) 320px;
+	gap: 20px;
+	justify-content: center;
+	background: darkgreen;
+	padding: 36px 16px; 
+	min-height: 100vh; 
+	box-sizing: border-box; 
+}
+.search-card { width: 100%; padding: 14px; box-sizing: border-box; background: var(--surface); border-radius: 14px; box-shadow: 0 12px 36px rgba(4,32,38,0.06); }
+.search-row { display:flex; gap:12px; align-items:center; }
+.search-field { flex: 1 1 auto; }
+.search-field .mat-form-field-wrapper { padding-bottom: 0; }
+.chat-search { display:flex; gap:12px; align-items:center; justify-content: center; }
+.chat-field { flex: 1 1 auto; }
+.chat-field .mat-form-field-flex { border-radius: var(--search-radius); padding: 8px 16px; min-height: 56px; background: var(--search-bg); box-shadow: 0 10px 30px rgba(10,95,110,0.06); overflow: hidden; }
+.chat-field .mat-form-field-infix { padding: 0 8px; }
+.chat-field .mat-form-field-wrapper { padding-bottom: 0; }
+.chat-field mat-icon { color: rgba(8,50,58,0.6); margin-right:6px }
+.chat-search-btn { min-width: 88px; height:48px; border-radius: calc(var(--search-radius) - 6px); background: linear-gradient(180deg, rgba(10,95,110,0.98), rgba(6,70,80,0.98)); color: #fff; box-shadow: 0 6px 18px rgba(10,95,110,0.12); }
+
+/* Ensure outline appearance shows rounded corners */
+.chat-field.mat-form-field-appearance-outline .mat-mdc-form-field-outline, .chat-field.mat-form-field-appearance-outline .mat-mdc-form-field-outline-start, .chat-field.mat-form-field-appearance-outline .mat-mdc-form-field-outline-end {
+	border-radius: var(--search-radius);
+	border-color: rgba(8,50,58,0.06);
+}
+
+/* Make sure the input itself doesn't overflow the rounded container */
+.chat-field input.mat-input-element { border-radius: calc(var(--search-radius) - 4px); background: transparent; }
+.meta-row { font-size: 0.9rem; color: rgba(0,0,0,0.6); margin-top: 8px }
+.word-row { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.word { font-weight:700; font-size:1.2rem; }
+.phonetics { display:flex; align-items:center; gap:8px; }
+.pos { font-style:italic; color: rgba(0,0,0,0.6); margin-top:8px }
+.def { margin:6px 0; color: #ffffff; }
+.ex { color: rgba(0,0,0,0.54); font-size:0.95rem }
+.favorites .fav-title { font-weight:700; margin-bottom:6px }
+.results mat-card { margin-top:8px; padding:12px }
+.results, .results mat-card, .definition-preview mat-card {
+	color: #ffffff;
+}
+
+.results .word, .results .pos, .results .def, .results .ex, .definition-preview .word, .definition-preview .pos, .definition-preview .def, .definition-preview .ex {
+	color: #ffffff;
+}
+.sidebar { display:flex; flex-direction:column; gap:12px; }
+.history-card { padding:12px; }
+.history-list { display:flex; flex-direction:column; gap:6px; }
+.error { color: #b00020 }
+
+/* Page background */
+:host { display: block; background: linear-gradient(180deg, #f6fbff 0%, #eef7ff 100%); }
+
+/* Ensure readable dark text inside the card even if the global body color is light */
+.search-card, .results mat-card, .favorites mat-card { color: #042026; }
+.chat-field input.mat-input-element { color: #042026; }
+.chat-field .mat-form-field-label { color: rgba(4,32,38,0.7); }
+.meta-row, .history button { color: rgba(4,32,38,0.7); }
+
+/* Material 3-like subtle elevated appearance for the search field */
+.search-field .mat-form-field-outline { border-radius: calc(var(--search-radius) - 8px); }
+.search-field.mat-form-field { background: rgba(250,250,252,0.9); border-radius: calc(var(--search-radius) - 6px); }
+
+/* Material-3-like search field styling */
+.search-field .mat-form-field-flex {
+	background: var(--search-bg);
+	border-radius: calc(var(--search-radius) - 6px);
+	padding: 8px 14px;
+	min-height: 48px;
+	align-items: center;
+	box-shadow: 0 6px 18px rgba(10,95,110,0.04);
+}
+.search-field .mat-form-field-infix { padding: 0 8px; }
+.search-field .mat-form-field-label { color: rgba(8,50,58,0.6); }
+.search-field input.mat-input-element { padding: 8px 6px; font-size: 1rem; }
+.search-field .mat-form-field-outline { border-color: rgba(8,50,58,0.06); }
+.search-field.mat-form-field .mat-form-field-outline-thick { border-width: 1px; }
+
+/* Focus/hover states */
+.search-field .mat-form-field-flex:focus-within, .search-field .mat-form-field-flex:hover {
+	box-shadow: 0 10px 28px rgba(10,95,110,0.06);
+}
+
+@media (max-width: 920px) {
+	.dict-root { grid-template-columns: 1fr; padding: 24px 12px; }
+	.sidebar { order: 2; }
+	.main-col { order: 1; }
+}
+
+/* Ensure MDC form-field inner flex wrapper shows rounded corners */
+.chat-field .mat-mdc-form-field-flex,
+.search-field .mat-mdc-form-field-flex,
+.mat-mdc-form-field-flex {
+	display: inline-flex;
+	align-items: baseline;
+	box-sizing: border-box;
+	width: 100%;
+	border-radius: var(--search-radius) !important;
+	overflow: hidden;
+}

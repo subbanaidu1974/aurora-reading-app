@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- transparent background -->
+  <rect x="12" y="16" width="28" height="32" rx="4" fill="#FFF" stroke="#0A5F6E" stroke-width="1"/>
+  <rect x="28" y="22" width="22" height="8" rx="2" fill="#F3F9F5" stroke="#0A5F6E" stroke-width="1"/>
+</svg>

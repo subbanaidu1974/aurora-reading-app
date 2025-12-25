@@ -1,24 +1,49 @@
 .category-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));
-  gap:12px;
+  display: grid;
+  /* control minimum card width; grid wraps to fit all cards into multiple rows */
+  --category-size: 160px;
+  grid-template-columns: repeat(auto-fit, minmax(var(--category-size), 1fr));
+  gap: 14px;
+  width: 100%;
+  max-width: 1240px; /* constrain to center panel */
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 8px;
+  justify-items: stretch;
+  align-items: start;
 }
+.material-symbols-rounded {
+  font-family: 'Material Symbols Outlined', 'Material Symbols Rounded', 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 28px;
+  line-height: 1;
+  display: inline-block;
+  vertical-align: middle;
+  text-rendering: optimizeLegibility;
+}
+
+/* Load Material Symbols Rounded for icons (Material 3 style) */
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400,0,0');
 .category-card{
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
   gap:8px;
-  padding:16px;
-  border-radius:24px;
+  padding:12px;
+  border-radius:20px;
   border:1px solid rgba(0,0,0,0.04);
   cursor:pointer;
   color:#0a5f6e;
-  font-size:16px;
+  font-size:15px;
   font-weight:600;
-  min-height:96px;
-  text-align:center;
-  transition:transform .14s ease, box-shadow .14s ease;
+  /* uniform square cards; height follows computed width */
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  transition: transform .14s ease, box-shadow .14s ease, padding .14s ease;
 }
 .category-card:focus{
   outline:3px solid rgba(11,143,79,0.14);
@@ -28,9 +53,45 @@
 .category-card.selected{box-shadow:0 12px 30px rgba(11,143,79,0.12);transform:translateY(-6px)}
 .category-card mat-icon{font-size:28px;color:inherit}
 .category-card .name{font-size:15px;line-height:1.1}
+/* Initial-letter placeholder when image is not available */
+.category-card .cat-initial{width:56px;height:56px;border-radius:10px;background:rgba(10,95,110,0.06);display:flex;align-items:center;justify-content:center;font-weight:700;color:#0a5f6e;margin:0 auto 8px}
+/* Image icon sizing for category selector */
+.category-card .cat-img{ width:56px; height:56px; object-fit:contain; display:block; margin:0 auto 8px }
 
-@media (max-width:600px){
-  .category-grid{grid-template-columns:repeat(2,1fr)}
+/* Ensure the content inside the card centers properly when aspect-ratio controls height */
+.category-card > * { width: 100%; }
+.category-card .name { padding: 0 6px; }
+
+/* Responsive sizing: control minimum card width (number of columns adjusts automatically) */
+@media (max-width: 480px) {
+  .category-grid { --category-size: 120px; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(var(--category-size), 1fr)); }
+  .category-card { padding: 8px; font-size: 13px; }
+  .category-card mat-icon { font-size: 20px; }
+}
+
+@media (min-width: 481px) and (max-width: 760px) {
+  .category-grid { --category-size: 140px; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(var(--category-size), 1fr)); }
+  .category-card { padding: 10px; font-size: 14px; }
+}
+
+@media (min-width: 761px) and (max-width: 900px) {
+  .category-grid { --category-size: 150px; grid-template-columns: repeat(auto-fit, minmax(var(--category-size), 1fr)); }
+}
+
+@media (min-width: 901px) and (max-width: 1100px) {
+  .category-grid { --category-size: 160px; grid-template-columns: repeat(auto-fit, minmax(var(--category-size), 1fr)); }
+}
+
+@media (min-width: 1101px) and (max-width: 1300px) {
+  .category-grid { --category-size: 180px; grid-template-columns: repeat(auto-fit, minmax(var(--category-size), 1fr)); }
+}
+
+@media (min-width: 1301px) and (max-width: 1599px) {
+  .category-grid { --category-size: 140px; grid-template-columns: repeat(auto-fit, minmax(var(--category-size), 1fr)); }
+}
+
+@media (min-width: 1600px) {
+  .category-grid { --category-size: 120px; grid-template-columns: repeat(auto-fit, minmax(var(--category-size), 1fr)); }
 }
 :host{display:block}
 .cat-select{width:100%}

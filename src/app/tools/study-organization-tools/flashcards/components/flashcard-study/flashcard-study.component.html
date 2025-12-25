@@ -1,43 +1,79 @@
 <div class="study-root">
-  <div class="controls">
-    <fc-category-selector (selection)="onCategory($event)"></fc-category-selector>
-    <mat-form-field appearance="outline" class="deck-select" *ngIf="(decks$ | async) as decks">
-      <mat-label>Deck</mat-label>
-      <mat-select (selectionChange)="onDeck($event.value)">
-        <ng-container *ngFor="let d of decks">
-          <mat-option *ngIf="!selectedCategory || d.categoryId === selectedCategory" [value]="d.id">{{d.name}} ({{d.cards.length}})</mat-option>
-        </ng-container>
-      </mat-select>
-    </mat-form-field>
+  <div class="study-container">
+    <main class="main-panel">
+      <!-- Inline category list: shows all categories in the study page -->
+      <section class="study-categories" *ngIf="!selectedCategory && (categories$ | async) as cats">
+        <button
+          type="button"
+          class="study-category-card"
+          *ngFor="let c of cats"
+          [style.background]="c.color"
+          (click)="onCategory(c.id)"
+          [attr.aria-pressed]="selectedCategory === c.id"
+        >
+          <ng-container *ngIf="c.iconImage; else txtFallback">
+            <img class="cat-img" [src]="c.iconImage" alt="{{ c.name }} icon">
+          </ng-container>
+          <ng-template #txtFallback>
+            <div class="cat-initial" aria-hidden="true">{{ (c.name || c.id || '') | slice:0:1 | uppercase }}</div>
+          </ng-template>
+          <div class="name">{{ c.name }}</div>
+        </button>
+      </section>
 
-    <div class="toggles">
-      <mat-slide-toggle [(ngModel)]="disableAnim">Disable animation</mat-slide-toggle>
-      <mat-slide-toggle [(ngModel)]="focus">Focus mode</mat-slide-toggle>
-    </div>
+      <!-- Decks for selected category (hidden when a deck is opened) -->
+      <section class="study-decks" *ngIf="selectedCategory && !selectedDeck">
+        <div class="decks-header">
+          <button class="back-btn" type="button" (click)="onBack()">← Back</button>
+          <h3 class="decks-title">Decks in "{{ selectedCategoryName || selectedCategory }}"</h3>
+        </div>
+        <div class="decks-grid">
+          <mat-card class="deck-card" *ngFor="let d of (decksForCategory$ | async)" (click)="onDeck(d.id)" role="button" tabindex="0">
+            <mat-card-content>
+              <div class="deck-name">{{ d.name }}</div>
+              <div class="deck-meta">{{ d.cards?.length || 0 }} cards</div>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-button color="primary" (click)="$event.stopPropagation(); onDeck(d.id)">Study</button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </section>
+
+      <!-- Study view for a selected deck -->
+      <section class="study-view" *ngIf="selectedDeck">
+        <div class="study-header">
+          <button class="back-btn" type="button" (click)="onBackToDecks()">← Back to decks</button>
+          <div class="study-header-actions">
+            <button class="back-btn" type="button" (click)="onBackToCategoriesFromStudy()">← Back to categories</button>
+          </div>
+        </div>
+
+        <div class="card-area" *ngIf="cards && cards.length">
+          <div class="stacked-cards" aria-live="polite">
+            <mat-card *ngFor="let c of cards; let i = index" class="stacked-card" [ngStyle]="cardStyle(i)" [class.top]="isTop(i)" [class.flipped]="isTop(i) && flipped" (click)="isTop(i) && flip()">
+              <mat-card-content>
+                <div class="front">{{ c.frontText }}</div>
+                <div class="back">{{ c.backText }}</div>
+              </mat-card-content>
+              <mat-card-actions *ngIf="isTop(i)">
+                <button mat-icon-button (click)="$event.stopPropagation(); play('front')" aria-label="Speak front"><mat-icon>volume_up</mat-icon></button>
+                <button mat-stroked-button color="warn" (click)="$event.stopPropagation(); mark('hard')"><mat-icon>priority_high</mat-icon>&nbsp;Hard</button>
+                <button mat-stroked-button (click)="$event.stopPropagation(); mark('ok')"><mat-icon>check</mat-icon>&nbsp;OK</button>
+                <button mat-stroked-button color="primary" (click)="$event.stopPropagation(); mark('easy')"><mat-icon>thumb_up</mat-icon>&nbsp;Easy</button>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+
+          <div class="nav">
+            <button mat-icon-button (click)="prev()"><mat-icon>chevron_left</mat-icon></button>
+            <div class="pos">{{ index + 1 }} / {{ cards.length }}</div>
+            <button mat-icon-button (click)="next()"><mat-icon>chevron_right</mat-icon></button>
+          </div>
+        </div>
+      </section>
+
+      
+    </main>
   </div>
-
-  <div class="card-area" *ngIf="cards && cards.length">
-    <mat-card class="study-card" [class.flipped]="flipped">
-      <mat-card-content>
-        <div class="front" *ngIf="!flipped">{{ cards[index].frontText }}</div>
-        <div class="back" *ngIf="flipped">{{ cards[index].backText }}</div>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-icon-button (click)="play('front')" aria-label="Speak front"><mat-icon>volume_up</mat-icon></button>
-        <button mat-stroked-button color="warn" (click)="mark('hard')"><mat-icon>priority_high</mat-icon>&nbsp;Hard</button>
-        <button mat-stroked-button (click)="mark('ok')"><mat-icon>check</mat-icon>&nbsp;OK</button>
-        <button mat-stroked-button color="primary" (click)="mark('easy')"><mat-icon>thumb_up</mat-icon>&nbsp;Easy</button>
-      </mat-card-actions>
-    </mat-card>
-
-    <div class="nav">
-      <button mat-icon-button (click)="prev()"><mat-icon>chevron_left</mat-icon></button>
-      <div class="pos">{{ index + 1 }} / {{ cards.length }}</div>
-      <button mat-icon-button (click)="next()"><mat-icon>chevron_right</mat-icon></button>
-    </div>
-  </div>
-
-  <div *ngIf="!cards || !cards.length" class="empty">No cards in selected deck.</div>
-
-  <fc-focus-mode *ngIf="focus" [card]="cards[index]" [flipped]="flipped" (close)="closeFocus()"></fc-focus-mode>
 </div>

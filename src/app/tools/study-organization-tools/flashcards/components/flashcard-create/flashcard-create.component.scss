@@ -1,3 +1,473 @@
+.fc-chevron-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--fc-nav-size, 112px);
+  height: var(--fc-nav-size, 112px);
+}
+// Ensure SVG inside scales up
+.fc-chevron-icon svg {
+  width: 40%;
+  height: 40%;
+}
+
+.fc-card-nav-side {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: transparent;
+  box-shadow: none;
+}
+.fc-card-nav-side button.mat-icon-button {
+  width: var(--fc-nav-size, 112px);
+  height: var(--fc-nav-size, 112px);
+  min-width: var(--fc-nav-size, 112px);
+  min-height: var(--fc-nav-size, 112px);
+  border: none;
+  border-radius: 50%;
+  background: transparent !important;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.fc-card-nav-side button.mat-icon-button:hover {
+  background: transparent !important;
+}
+.fc-card-nav-side .mat-icon {
+  font-size: 2.2em;
+  color: #43d17a;
+}
+// Side navigation buttons for single card view
+// ...existing code...
+// Side navigation buttons for single card view
+.fc-single-card-view {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  min-height: 260px;
+}
+
+// Position nav buttons at left/right edges, vertically centered
+// Position nav buttons at left/right edges of the card, vertically centered
+.fc-card-nav-side {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: transparent;
+  box-shadow: none;
+}
+.fc-card-nav-left {
+  left: 0;
+  top: 50%;
+  transform: translate(calc(-50% - (var(--fc-nav-offset, 35px))), -50%);
+}
+.fc-card-nav-right {
+  right: 0;
+  top: 50%;
+  transform: translate(calc(50% - (var(--fc-nav-offset, 35px))), -50%);
+}
+// Removed stray closing brace
+
+.fc-card-preview.single {
+  position: relative;
+  margin: 0 8px;
+  overflow: visible; /* allow nav buttons to sit outside the card edges */
+  --fc-nav-size: 112px;
+  --fc-nav-offset: 40px;
+  --fc-card-width: 80%;
+}
+
+/* Responsive adjustments */
+/* Responsive adjustments */
+@media (max-width: 1100px) {
+  .fc-card-preview.single { --fc-nav-size: 96px; --fc-nav-offset: 32px; }
+}
+@media (max-width: 900px) {
+  .fc-card-preview.single {
+    --fc-nav-size: 72px;
+    --fc-nav-offset: 22px;
+    width: 90%;
+    max-width: 520px;
+  }
+  .fc-chevron-icon svg { width: 70%; height: 70%; }
+}
+
+@media (max-width: 640px) {
+  .fc-card-preview.single {
+    --fc-nav-size: 64px;
+    --fc-nav-offset: 20px;
+    width: 96%;
+    max-width: 420px;
+  }
+  .fc-chevron-icon svg { width: 72%; height: 72%; }
+}
+
+@media (max-width: 480px) {
+  .fc-card-preview.single {
+    --fc-nav-size: 56px;
+    --fc-nav-offset: 16px;
+    width: 100%;
+    margin: 0;
+    max-width: 100%;
+  }
+  /* place buttons inside the card on very small screens */
+  .fc-card-nav-left { left: 8px; transform: translate(0, -50%); }
+  .fc-card-nav-right { right: 8px; transform: translate(0, -50%); }
+  .fc-chevron-icon svg { width: 80%; height: 80%; }
+  .fc-deck-name { display: none; }
+}
+
+.fc-card-count {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,0.85);
+  border-radius: 8px;
+  padding: 2px 12px;
+  font-size: 1.1em;
+  color: #0a5f6e;
+  font-weight: 500;
+  z-index: 4;
+}
+.fc-deck-name {
+  font-size: 1.2em;
+  font-weight: 600;
+  color: #0a5f6e;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.fc-single-card-view {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.fc-card-nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+.fc-card-count {
+  font-size: 1.1em;
+  color: #0a5f6e;
+  font-weight: 500;
+}
+.fc-card-preview.single {
+  width: 80%;
+  min-height: 120px;
+  max-width: 420px;
+  margin: 0 auto;
+  position: relative;
+}
+// Flashcard flip styles
+// Animate the mat-card itself flipping
+// Flip animation and colored sides
+.fc-card-flip-mat {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(.23,1.02,.53,.97);
+}
+.fc-card-preview.flipped .fc-card-flip-mat {
+  transform: rotateY(180deg) scale(1.02);
+  box-shadow: 0 8px 32px rgba(8,10,12,0.18);
+}
+.fc-card-preview .fc-card-flip-mat {
+  box-shadow: 0 2px 8px rgba(8,10,12,0.08);
+}
+.fc-card-front, .fc-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2em;
+  padding: 16px;
+  box-sizing: border-box;
+  box-shadow: 0 2px 8px rgba(8,10,12,0.08);
+  transition: opacity 0.28s ease, transform 0.6s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+.fc-card-front {
+  background: linear-gradient(135deg, #e3f6fc 60%, #d1ffe6 100%);
+  color: #0a5f6e;
+  z-index: 2;
+}
+.fc-card-back {
+  background: linear-gradient(135deg, #ffe3e3 60%, #fff6d1 100%);
+  color: #7a2f0a;
+  transform: rotateY(180deg);
+  z-index: 1;
+}
+.show-front {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+.show-back {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* explicit hide classes (used by template bindings) */
+.hide-front, .hide-back {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+// Flip animation and colored sides
+// Enhanced 3D flip animation
+// Flip the mat-card itself
+.fc-card-flip-mat {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(.23,1.02,.53,.97);
+}
+.fc-card-preview.flipped .fc-card-flip-mat {
+  transform: rotateY(180deg) scale(1.02);
+  box-shadow: 0 8px 32px rgba(8,10,12,0.18);
+}
+.fc-card-preview .fc-card-flip-mat {
+  box-shadow: 0 2px 8px rgba(8,10,12,0.08);
+}
+.fc-card-front, .fc-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2em;
+  padding: 16px;
+  box-sizing: border-box;
+  box-shadow: 0 2px 8px rgba(8,10,12,0.08);
+  transition: background 0.3s, color 0.3s;
+}
+.fc-card-front {
+  background: linear-gradient(135deg, #e3f6fc 60%, #d1ffe6 100%);
+  color: #0a5f6e;
+  z-index: 2;
+}
+.fc-card-back {
+  background: linear-gradient(135deg, #ffe3e3 60%, #fff6d1 100%);
+  color: #7a2f0a;
+  transform: rotateY(180deg);
+  z-index: 1;
+}
+.show-front {
+  opacity: 1;
+  pointer-events: auto;
+}
+.show-back {
+  opacity: 1;
+  pointer-events: auto;
+}
+.fc-card-front, .fc-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2em;
+  padding: 16px;
+  box-sizing: border-box;
+  box-shadow: 0 2px 8px rgba(8,10,12,0.08);
+  transition: background 0.3s, color 0.3s;
+}
+// Card front always visible by default, with color
+.fc-card-front {
+  background: linear-gradient(135deg, #e3f6fc 60%, #d1ffe6 100%);
+  color: #0a5f6e;
+  opacity: 1;
+  z-index: 2;
+  transition: opacity 0.3s;
+}
+.fc-card-preview:not(.flipped) .fc-card-front {
+  opacity: 1;
+  z-index: 2;
+}
+.fc-card-preview.flipped .fc-card-front {
+  opacity: 0;
+  z-index: 1;
+}
+.fc-card-back {
+  background: linear-gradient(135deg, #ffe3e3 60%, #fff6d1 100%);
+  color: #7a2f0a;
+  transform: rotateY(180deg);
+}
+.fc-card-text {
+  word-break: break-word;
+  text-align: center;
+  width: 100%;
+  font-weight: 500;
+  font-size: 1.3em;
+  letter-spacing: 0.01em;
+}
+.fc-flashcard-list {
+  width: 100%;
+  box-sizing: border-box;
+}
+:host {
+  display: block;
+}
+.fc-create-layout {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+}
+.fc-cards-list {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+// Stacked card style
+.fc-card-preview {
+  border-radius: 14px;
+  background: #fff;
+  color: #0a5f6e;
+  box-shadow: 0 4px 16px rgba(8,10,12,0.06);
+  border: 1px solid rgba(0,0,0,0.06);
+  width: 60%;
+  min-height: 180px;
+  max-height: 60vh;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 16px auto;
+  padding-top: 32px;
+  transition: max-height 0.2s, min-height 0.2s;
+}
+.fc-card-preview.stacked {
+  margin: 0 auto 16px auto;
+  box-shadow: 0 2px 8px rgba(8,10,12,0.10);
+  width: 80%;
+  min-height: 120px;
+  max-width: 420px;
+  position: relative;
+}
+.fc-stacked-cards {
+  position: relative;
+  width: 100%;
+  min-height: 180px;
+}
+.fc-card-preview.stacked {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%) translateY(var(--stack-offset, 0px));
+  z-index: var(--stack-z, 1);
+  margin: 0;
+  box-shadow: 0 2px 8px rgba(8,10,12,0.10);
+  width: 80%;
+  min-height: 120px;
+  max-width: 420px;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.fc-no-deck {
+  color: #888;
+  font-size: 1.1em;
+  padding: 32px 0;
+  text-align: center;
+}
+// Align the form to the right edge and make it responsive
+.fc-create-form {
+  flex: 1 1 0;
+  min-width: 340px;
+  max-width: 500px;
+  display: flex;
+  justify-self: flex-end !important;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.fc-create-layout {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+.fc-cards-list, .fc-create-form {
+  width: 100%;
+  min-width: 220px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.fc-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+.fc-create-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.fc-create-form.align-right {
+  align-items: flex-end;
+}
+
+.create-card.responsive {
+  width: 100%;
+  margin-left: auto;
+  margin-right: 0;
+  min-height: 220px;
+  height: auto;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  transition: height 0.2s;
+}
+
+@media (max-width: 900px) {
+  .fc-create-layout {
+    flex-direction: column;
+    gap: 24px;
+  }
+  .fc-cards-list, .fc-create-form {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+  .fc-card-preview {
+    width: 100%;
+    aspect-ratio: unset;
+    min-height: 180px;
+    margin: 0 auto 16px auto;
+  }
+  .create-card.responsive {
+    aspect-ratio: unset;
+    min-height: 180px;
+    height: auto;
+  }
+}
 :host{display:block}
 .create-card{
   border-radius: 18px;
@@ -6,6 +476,13 @@
   color: #0a5f6e;
   box-shadow: 0 10px 30px rgba(8,10,12,0.04);
   border: 1px solid rgba(0,0,0,0.06);
+  margin-left: auto;
+}
+
+.create-card .half[appearance="outline"] {
+  width: 100%;
+  min-width: 0;
+  display: block;
 }
 
 /* Tighter, rounded inputs inside flashcard create */
@@ -37,6 +514,29 @@
 .create-card ::ng-deep .mat-mdc-form-field-wrapper {
 	border-radius: 10px !important;
 	overflow: hidden !important;
+}
+.create-card .actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Material-3 style Add button */
+.create-card .m3-add {
+  --bg: #43d17a; /* primary accent */
+  background: var(--bg) !important;
+  color: #fff !important;
+  border-radius: 12px !important;
+  padding: 10px 16px !important;
+  box-shadow: 0 6px 14px rgba(67,209,122,0.18) !important;
+  font-weight: 600;
+}
+.create-card .m3-add mat-icon {
+  vertical-align: middle;
+  margin-right: 6px;
+  color: inherit !important;
+}
+.create-card .m3-add:hover {
+  background: color-mix(in srgb, var(--bg) 85%, black 15%) !important;
 }
 .full{width:100%}
 .half{width:48%;display:inline-block}

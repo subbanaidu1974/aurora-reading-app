@@ -14,35 +14,42 @@
 }
 
 /* Reduce form field height and add rounded corners for Material fields inside the create card */
-.create-deck-card ::ng-deep .mat-mdc-form-field {
-	border-radius: 10px;
+
+/* Plain input style for deck creation form */
+.create-deck-card form .mat-form-field {
+	all: unset;
+	display: block;
+	margin-bottom: 10px;
 }
-.create-deck-card ::ng-deep .mat-mdc-text-field, .create-deck-card ::ng-deep .mat-mdc-select {
-	border-radius: 10px;
-}
-.create-deck-card ::ng-deep input.mat-mdc-text-field-input,
-.create-deck-card ::ng-deep .mat-mdc-select-trigger,
-.create-deck-card ::ng-deep textarea.mat-mdc-text-field-input{
-	padding: 6px 10px !important;
-	height: 36px !important;
-	line-height: 1.1 !important;
+.create-deck-card form input[matInput],
+.create-deck-card form input[type="text"],
+.create-deck-card form input[type="search"],
+.create-deck-card form input[type="email"],
+.create-deck-card form input[type="password"] {
+	width: 100%;
+	border: 1px solid #b2dfdb;
+	border-radius: 8px;
+	padding: 4px 10px;
+	height: 28px;
+	font-size: 0.95rem;
+	background: #fff;
 	box-sizing: border-box;
-	border-radius: 8px !important;
+	outline: none;
+	transition: border-color 0.2s;
 }
-
-/* Ensure the outline/notched outline of MDC form-field also has rounded corners */
-.create-deck-card ::ng-deep .mdc-notched-outline,
-.create-deck-card ::ng-deep .mdc-notched-outline__leading,
-.create-deck-card ::ng-deep .mdc-notched-outline__trailing,
-.create-deck-card ::ng-deep .mat-mdc-select .mdc-select__anchor {
-	border-radius: 10px !important;
-	overflow: hidden !important;
+.create-deck-card form input[matInput]:focus {
+	border-color: #0b8f4f;
 }
-
-/* Slight visual padding on form-field wrapper so corners look consistent */
-.create-deck-card ::ng-deep .mat-mdc-form-field-wrapper {
-	border-radius: 10px !important;
-	overflow: hidden !important;
+.create-deck-card form .mat-form-field label,
+.create-deck-card form .mat-form-field .mat-label {
+	font-size: 0.92em;
+	color: #0a5f6e;
+	margin-bottom: 2px;
+	display: block;
+}
+.create-deck-card form .mat-form-field .mat-form-field-wrapper,
+.create-deck-card form .mat-form-field .mat-form-field-flex {
+	all: unset;
 }
 .create-flashcard{ margin-top: 18px }
 .deck-card{
@@ -148,13 +155,14 @@
 button.mat-flat-button,button.mat-stroked-button{border-radius:10px}
 /* Material 3 Create button style */
 .m3-create-btn{
-	background: linear-gradient(180deg,var(--md-sys-color-primary,#0b8f4f), color-mix(in srgb, var(--md-sys-color-primary,#087443) 80%));
-	color: var(--md-sys-color-on-primary,#ffffff) !important;
+	--btn-bg: #43d17a;
+	background: var(--btn-bg) !important;
+	color: #ffffff !important;
 	border-radius: 14px !important;
 	padding: 8px 16px !important;
 	height: 40px;
 	font-weight: 600;
-	box-shadow: 0 6px 18px rgba(11,143,79,0.14);
+	box-shadow: 0 6px 18px rgba(67,209,122,0.14);
 	border: 1px solid rgba(0,0,0,0.06) !important;
 }
 .m3-create-btn:hover{filter:brightness(0.95)}

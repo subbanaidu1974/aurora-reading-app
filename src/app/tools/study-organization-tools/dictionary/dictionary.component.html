@@ -1,30 +1,84 @@
-<div class="feature-detail">
-  <h2>Dictionary</h2>
-  <p class="description">Merriam-Webster dictionary integration with audio pronunciation</p>
-  
-  <div class="features-grid">
-    <div class="feature-card">
-      <div class="feature-icon">📖</div>
-      <h3>Word Definitions</h3>
-      <p>Look up word meanings, synonyms, and examples from Merriam-Webster</p>
+<div class="dict-root">
+  <div class="main-col">
+    <mat-card class="search-card">
+      <div class="chat-search">
+        <mat-form-field appearance="outline" class="chat-field">
+          <button mat-icon-button matPrefix aria-label="Search" (click)="search()"><mat-icon>search</mat-icon></button>
+          <input matInput placeholder="Search definitions, examples, or pronunciations" [(ngModel)]="term" (keyup.enter)="search()" />
+        </mat-form-field>
+      </div>
+    </mat-card>
+
+    <!-- Primary definition preview shown directly under the search bar -->
+    <div class="definition-preview" *ngIf="results && results.length">
+      <mat-card>
+        <div class="word-row">
+          <div class="word">{{ results[0].word }}</div>
+          <div class="phonetics">
+            <ng-container *ngFor="let p of results[0].phonetics">
+              <span class="ph">{{ p.text }}</span>
+              <button mat-icon-button *ngIf="p.audio" (click)="playAudio(p.audio)" aria-label="Play pronunciation"><mat-icon>volume_up</mat-icon></button>
+            </ng-container>
+          </div>
+        </div>
+        <div class="meanings">
+          <div *ngIf="results[0].meanings?.length">
+            <div class="pos">{{ results[0].meanings[0].partOfSpeech }}</div>
+            <div class="def">{{ results[0].meanings[0].definitions[0]?.definition }}</div>
+            <div class="ex" *ngIf="results[0].meanings[0].definitions[0]?.example">"{{ results[0].meanings[0].definitions[0].example }}"</div>
+          </div>
+        </div>
+      </mat-card>
     </div>
-    
-    <div class="feature-card">
-      <div class="feature-icon">🔊</div>
-      <h3>Audio Pronunciation</h3>
-      <p>Listen to correct pronunciations for any word</p>
+
+    <!-- Full results list appears below the preview -->
+    <div class="results" *ngIf="results && results.length">
+      <mat-card *ngFor="let r of results">
+        <div class="word-row">
+          <div class="word">{{ r.word }}</div>
+          <div class="phonetics">
+            <ng-container *ngFor="let p of r.phonetics">
+              <span class="ph">{{ p.text }}</span>
+              <button mat-icon-button *ngIf="p.audio" (click)="playAudio(p.audio)" aria-label="Play pronunciation"><mat-icon>volume_up</mat-icon></button>
+            </ng-container>
+          </div>
+        </div>
+        <div class="meanings">
+          <div *ngFor="let m of r.meanings">
+            <div class="pos">{{ m.partOfSpeech }}</div>
+            <ol>
+              <li *ngFor="let d of m.definitions">
+                <div class="def">{{ d.definition }}</div>
+                <div class="ex" *ngIf="d.example">"{{ d.example }}"</div>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </mat-card>
     </div>
-    
-    <div class="feature-card">
-      <div class="feature-icon">📚</div>
-      <h3>Word History</h3>
-      <p>Learn about word origins, etymology, and usage over time</p>
-    </div>
-    
-    <div class="feature-card">
-      <div class="feature-icon">⭐</div>
-      <h3>Save Favorites</h3>
-      <p>Bookmark words to build your personal vocabulary list</p>
-    </div>
+
+    <div class="error" *ngIf="error">{{ error }}</div>
   </div>
+
+  <aside class="sidebar">
+    <mat-card class="history-card">
+      <div class="fav-title">History</div>
+      <div class="history-list">
+        <ng-container *ngFor="let h of history; let i = index">
+          <button mat-button (click)="useHistory(h)">{{ h }}</button>
+        </ng-container>
+      </div>
+    </mat-card>
+
+    <mat-card class="favorites" *ngIf="favorites && (favoritesKeys().length > 0)">
+      <div class="fav-title">Favorites</div>
+      <mat-list>
+        <mat-list-item *ngFor="let k of favoritesKeys()">
+          <button mat-button (click)="useFavorite(k)">{{ k }}</button>
+        </mat-list-item>
+      </mat-list>
+    </mat-card>
+  </aside>
+
 </div>
+ 

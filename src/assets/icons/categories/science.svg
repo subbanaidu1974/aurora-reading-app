@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <!-- transparent background -->
+  <path d="M8 4h8l-2 6v6a2 2 0 0 1-2 2h-0a2 2 0 0 1-2-2v-6L8 4z" fill="#0A5F6E"/>
+  <circle cx="12" cy="9" r="1" fill="#FFF"/>
+</svg>

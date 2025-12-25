@@ -1,7 +1,7 @@
 .flashcards-shell{
 	padding:20px;
 	background: linear-gradient(180deg, #1fbf76 0%, #0b8f4f 100%);
-	border-radius:16px;
+	border-radius:32px;
 	border:1px solid rgba(0,0,0,0.06);
 	/* reduced size to sit comfortably inside center panel (5% smaller) */
 	width: 95%;
@@ -13,10 +13,10 @@
 	flex-direction:column;
 	gap:12px;
 }
-.flashcards-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;padding:4px 8px}
+.flashcards-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;padding:4px 8px;border-radius:20px;}
 .flashcards-header h2{color:#0a5f6e;margin:0;font-weight:600}
 .flashcards-nav{display:flex;gap:8px}
-.flashcards-nav a{padding:8px 12px;border-radius:10px;background:transparent;color:#0a5f6e;text-decoration:none;border:1px solid transparent}
+.flashcards-nav a{padding:8px 12px;border-radius:16px;background:transparent;color:#0a5f6e;text-decoration:none;border:1px solid transparent}
 .flashcards-nav a:hover{background:rgba(10,95,110,0.06)}
-.flashcards-nav a.active{background:linear-gradient(90deg,#EAF8F8,#FFF8E1);font-weight:600;border-color:rgba(10,95,110,0.08)}
-.flashcards-content{flex:1 1 auto;display:inline-table;justify-content:center;align-items:flex-start;padding:0px 36px 0px 0px;overflow:auto}
+.flashcards-nav a.active{background:linear-gradient(90deg,#EAF8F8,#FFF8E1);font-weight:600;border-color:rgba(10,95,110,0.08);border-radius:20px;}
+.flashcards-content{flex:1 1 auto;display:inline-table;justify-content:right;align-items:flex-end;overflow:auto}

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- transparent background -->
+  <path d="M16 44h32v2H16zM20 12h24v6H20z" fill="#0A5F6E"/>
+  <path d="M20 22h24v14H20z" stroke="#0A5F6E" stroke-width="1" fill="#FFF"/>
+</svg>

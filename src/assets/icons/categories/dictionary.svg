@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- transparent background -->
+  <path d="M18 16h20v32H18z" fill="#FFF" stroke="#0A5F6E"/>
+  <path d="M24 22h8M24 30h8" stroke="#0A5F6E" stroke-width="2" stroke-linecap="round"/>
+</svg>

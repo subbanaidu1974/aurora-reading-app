@@ -1,6 +1,6 @@
 <div class="deck-grid">
   <div class="decks-area" *ngIf="(decksWithMeta$ | async) as decks">
-    <mat-card *ngFor="let d of decks" class="deck-card">
+    <mat-card *ngFor="let d of decks" class="deck-card clickable" (click)="goToCreate(d)">
       <div class="category-tape" [style.background]="d.category?.color || 'linear-gradient(90deg,#EAF8F8,#FFF8E1)'">
         <div class="tape-left">
           <ng-container *ngIf="d.category?.icon as ic">
@@ -45,7 +45,7 @@
       <mat-card-content>
         <form [formGroup]="form" (ngSubmit)="add()">
           <mat-form-field appearance="outline" class="full"><mat-label>Name</mat-label><input matInput formControlName="name" /></mat-form-field>
-          <mat-form-field appearance="outline" class="full"><mat-label>Description</mat-label><input matInput formControlName="description" /></mat-form-field>
+          <mat-form-field appearance="outline" class="full"><mat-label>Description</mat-label><textarea matInput formControlName="description" rows="2" cdkTextareaAutosize></textarea></mat-form-field>
           <mat-form-field appearance="outline" class="full">
             <mat-label>Category</mat-label>
             <mat-select formControlName="categoryId">
@@ -60,8 +60,5 @@
       </mat-card-content>
     </mat-card>
 
-    <div class="create-flashcard">
-      <fc-create></fc-create>
-    </div>
   </div>
 </div>

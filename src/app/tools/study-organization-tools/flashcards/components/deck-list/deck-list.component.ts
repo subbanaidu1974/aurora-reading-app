@@ -1,3 +1,4 @@
+// ...existing code...
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -51,4 +52,9 @@ export class DeckListComponent {
   }
 
   remove(id: string) { this.deckSvc.remove(id); }
+
+  goToCreate(deck: any) {
+    if (!deck || !deck.id) return;
+    this.router.navigate(['/tasks', 'study-organization-tools', 'flashcards', 'create'], { queryParams: { deckId: deck.id } });
+  }
 }

@@ -1,23 +1,85 @@
-<mat-card class="create-card">
-  <mat-card-title>Create Flashcard</mat-card-title>
-  <mat-card-content>
-    <form [formGroup]="form" (ngSubmit)="add()">
-      <mat-form-field appearance="outline" class="full"><mat-label>Front</mat-label><input matInput formControlName="frontText"/></mat-form-field>
-      <mat-form-field appearance="outline" class="full"><mat-label>Back</mat-label><textarea matInput rows="4" formControlName="backText"></textarea></mat-form-field>
-
-      <mat-form-field appearance="outline" class="half"><mat-label>Category</mat-label>
-        <mat-select formControlName="categoryId">
-          <mat-option *ngFor="let c of (availableCategories$ | async)" [value]="c.id">{{c.name}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="half"><mat-label>Deck</mat-label>
-        <mat-select formControlName="deckId"><mat-option *ngFor="let d of (decks$ | async)" [value]="d.id">{{d.name}} ({{d.cards.length}})</mat-option></mat-select>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="full"><mat-label>Image URL (optional)</mat-label><input matInput formControlName="imageUrl"/></mat-form-field>
-
-      <div class="actions"><button mat-flat-button color="primary" type="submit"><mat-icon>add</mat-icon>&nbsp;Add Card</button></div>
-    </form>
-  </mat-card-content>
-</mat-card>
+<div class="fc-create-layout">
+  <div class="fc-cards-list">
+    <ng-container *ngIf="selectedDeck">
+      <ng-container *ngIf="selectedDeck.cards?.length; else noCards">
+        <div class="fc-single-card-view" *ngIf="selectedDeck?.cards?.length">
+          <mat-card class="fc-card-preview single" [class.flipped]="flipped">
+            <!-- Prev Button -->
+            <button type="button" class="fc-card-nav-side fc-card-nav-left" mat-icon-button color="primary" (click)="prevCard()" [disabled]="selectedDeck.cards.length < 2" aria-label="Previous card">
+              <span class="fc-chevron-icon">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="20" cy="20" r="18" stroke="#000" stroke-width="1.0" fill="transparent"/>
+                    <polyline points="23,13 16,20 23,27" fill="none" stroke="#000" stroke-width="1.0" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </button>
+            <div class="fc-deck-name" *ngIf="selectedDeck?.name">
+              <mat-icon color="primary" style="vertical-align:middle;margin-right:6px;">folder</mat-icon>
+              <span>{{selectedDeck.name}}</span>
+            </div>
+            <div class="fc-card-flip-mat" (click)="flipCard()">
+              <div class="fc-card-front" [class.show-front]="!flipped" [class.hide-front]="flipped">
+                <div class="fc-card-text">{{selectedDeck.cards[currentCardIndex]?.frontText}}</div>
+              </div>
+              <div class="fc-card-back" [class.show-back]="flipped" [class.hide-back]="!flipped">
+                <div class="fc-card-text">{{selectedDeck.cards[currentCardIndex]?.backText}}</div>
+              </div>
+            </div>
+            <span class="fc-card-count">{{currentCardIndex + 1}} / {{selectedDeck.cards.length}}</span>
+            <!-- Next Button -->
+            <button type="button" class="fc-card-nav-side fc-card-nav-right" mat-icon-button color="primary" (click)="nextCard()" [disabled]="selectedDeck.cards.length < 2" aria-label="Next card">
+              <span class="fc-chevron-icon">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="20" cy="20" r="18" stroke="#000" stroke-width="1.0" fill="transparent"/>
+                  <polyline points="17,13 24,20 17,27" fill="none" stroke="#000" stroke-width="1.0" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </button>
+          </mat-card>
+        </div>
+      </ng-container>
+      <ng-template #noCards>
+        <div class="fc-no-cards">No flashcards in this deck yet.</div>
+      </ng-template>
+    </ng-container>
+  </div>
+  <div class="fc-create-form align-right">
+    <mat-card class="create-card responsive">
+      <mat-card-title>Create Flashcard</mat-card-title>
+      <mat-card-content>
+        <form [formGroup]="form" (ngSubmit)="add()" autocomplete="off">
+          <mat-form-field appearance="outline" class="full" floatLabel="always">
+            <mat-label>Front</mat-label>
+            <input matInput formControlName="frontText"/>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="full" floatLabel="always">
+            <mat-label>Back</mat-label>
+            <textarea matInput rows="4" formControlName="backText"></textarea>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="half" floatLabel="always">
+            <mat-label>Category</mat-label>
+            <mat-select formControlName="categoryId">
+              <mat-option *ngFor="let c of (availableCategories$ | async)" [value]="c.id">{{c.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div style="flex-basis: 100%; height: 0;"></div>
+          <mat-form-field appearance="outline" class="half" floatLabel="always">
+            <mat-label>Deck</mat-label>
+            <mat-select formControlName="deckId">
+              <mat-option *ngFor="let d of (decks$ | async)" [value]="d.id">{{d.name}} ({{d.cards.length}})</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="full" floatLabel="always">
+            <mat-label>Image URL (optional)</mat-label>
+            <input matInput formControlName="imageUrl"/>
+          </mat-form-field>
+          <div class="actions">
+            <button mat-flat-button color="primary" type="submit" class="m3-add">
+              <mat-icon>add</mat-icon>&nbsp;Add Card
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

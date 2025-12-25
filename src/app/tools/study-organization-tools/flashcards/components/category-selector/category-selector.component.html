@@ -11,7 +11,12 @@
     tabindex="0"
     role="listitem"
   >
-    <mat-icon aria-hidden="true">{{ c.icon }}</mat-icon>
+    <ng-container *ngIf="c.iconImage; else textFallback">
+      <img class="cat-img" [src]="c.iconImage" alt="{{ c.name }} icon">
+    </ng-container>
+    <ng-template #textFallback>
+      <div class="cat-initial" aria-hidden="true">{{ (c.name || c.id || '') | slice:0:1 | uppercase }}</div>
+    </ng-template>
     <div class="name">{{ c.name }}</div>
   </button>
 </div>

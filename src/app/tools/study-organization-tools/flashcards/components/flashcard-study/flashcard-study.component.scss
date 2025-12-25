@@ -1,22 +1,192 @@
 :host{display:block}
 @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600&display=swap');
 .study-root{
-	padding: 18px;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	gap: 12px;
+	align-items: stretch;
+	/* light yellow-green gradient */
+	background: linear-gradient(180deg, #fbffd9 0%, #efffc8 100%);
+	cursor: pointer;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
-	background: #e6fff1;
-	color: #0a5f6e;
+	justify-content: space-between;
+	min-height: 96px;
+	border-radius: 12px;
+	transition: border-radius .18s ease, padding .18s ease, box-shadow .18s ease;
 }
-.controls{display:flex;gap:12px;align-items:center}
-.deck-select{width:320px}
+.study-root { 
+  min-height: 60vh;
+  max-height: calc(60vh - 120px);
+  font-size: 0.875rem;
+  color: rgba(0,0,0,0.6);
+}
+/* Make container and panels fill the available height so they can scroll internally */
+.study-container { height: 100%; }
+.category-side, .main-panel { height: 100%; overflow: auto; }
+
+@media (max-width: 640px) {
+	/* On very small screens allow natural height/flow */
+	.study-root { max-height: none; min-height: auto; }
+	.study-container, .category-side, .main-panel { height: auto; overflow: visible; }
+}
+
+@media (min-width: 900px) {
+	.study-root { border-radius: 20px; padding: 22px; }
+}
+
+@media (min-width: 1400px) {
+	.study-root { border-radius: 28px; padding: 28px; }
+}
+.category-page{
+	width: 100%;
+	padding: 18px 12px 12px 12px;
+	display: flex;
+	justify-content: center; /* center the inner selector */
+	box-sizing: border-box;
+}
+
+/* Make the category selector use the full page area but constrained to center panel */
+fc-category-selector { display: block; width: 100%; max-width: 1200px; }
+
+/* New responsive container: sidebar + main panel */
+.study-container{
+	display: grid;
+	gap: 20px;
+	align-items: start;
+}
+
+.category-side{ padding: 12px; box-sizing: border-box; }
+.category-side fc-category-selector{ max-width: 320px; }
+
+.main-panel{ padding: 12px; box-sizing: border-box; }
+
+.main-categories { width: 100%; display: block; margin-bottom: 12px; }
+.main-categories fc-category-selector { width: 100%; max-width: 1240px; margin: 0 auto; }
+
+/* Inline study categories styles */
+.study-categories{
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+	gap: 12px;
+	width: 100%;
+	margin-bottom: 18px;
+}
+/* Deck grid when a category is selected */
+.study-decks{ margin: 12px 0 18px 0 }
+.decks-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:12px }
+.deck-card{
+	cursor: pointer;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	min-height: 96px;
+	border-radius: 12px;
+	padding: 12px;
+	background: linear-gradient(180deg, #ffffff, #fbfbff);
+	border: 1px solid rgba(10,95,110,0.06);
+	box-shadow: 0 6px 18px rgba(10,95,110,0.04);
+	transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+.deck-card:hover{
+	transform: translateY(-6px);
+	box-shadow: 0 18px 48px rgba(10,95,110,0.08);
+	border-color: rgba(10,95,110,0.12);
+}
+.deck-card:focus{ outline: none; box-shadow: 0 10px 30px rgba(10,95,110,0.09); }
+.deck-card .deck-name{ font-size: 1rem; font-weight: 600; color: #08323a }
+.deck-card .deck-meta{ font-size: 0.875rem; color: rgba(8,50,58,0.6) }
+ .deck-card mat-card-actions { display:flex; justify-content:flex-end; }
+ .deck-card mat-card-actions button[mat-button] { padding: 6px 12px; }
+.study-category-card{
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+	justify-content:center;
+	gap:8px;
+	padding:12px;
+	border-radius:16px;
+	border:1px solid rgba(0,0,0,0.04);
+	color:#0a5f6e;
+	font-weight:600;
+	min-height:120px;
+	text-align:center;
+	cursor:pointer;
+	transition: transform .14s ease, box-shadow .14s ease;
+}
+.study-category-card:hover{ transform: translateY(-6px); box-shadow: 0 14px 34px rgba(0,0,0,0.06); }
+.study-category-card mat-icon{ font-size:26px; color:inherit }
+.study-category-card .name{ font-size:14px }
+/* Image icon sizing when using image assets */
+.study-category-card .cat-img{ width:48px; height:48px; object-fit:contain; display:block; margin:0 auto 6px; }
+/* Initial-letter placeholder when image is not available */
+.study-category-card .cat-initial{ width:48px; height:48px; border-radius:8px; background:rgba(10,95,110,0.06); display:flex; align-items:center; justify-content:center; font-weight:700; color:#0a5f6e; margin:0 auto 6px }
+
+@media (max-width: 640px){
+	.study-categories{ grid-template-columns: repeat(2, 1fr); gap:10px }
+	.study-category-card{ min-height:96px; padding:10px }
+}
+
+@media (min-width: 900px){
+	.study-categories{ grid-template-columns: repeat(5, 1fr); }
+}
+
+/* Stack on small screens */
+@media (max-width: 900px){
+	.study-container{ grid-template-columns: 1fr; }
+	.category-side{ order: -1; width: 100%; }
+	.category-side fc-category-selector{ max-width: 100%; }
+	.main-panel{ padding-top: 6px; }
+}
+
+/* Ensure card-area is centered only when a deck is shown */
+.controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.deck-select{width:320px;max-width:40%}
 .card-area{display:flex;gap:16px;align-items:center;justify-content:center;margin-top:18px;width:100%}
-.study-card{max-width:620px;width:100%;border-radius:18px;padding:18px;background:linear-gradient(180deg,#FFF8E1,#F3F9F5);box-shadow:0 12px 40px rgba(8,10,12,0.06);border:1px solid rgba(0,0,0,0.03)}
+.study-card{max-width:760px;width:100%;border-radius:18px;padding:18px;background:linear-gradient(180deg,#FFF8E1,#F3F9F5);box-shadow:0 12px 40px rgba(8,10,12,0.06);border:1px solid rgba(0,0,0,0.03)}
 .study-card .front,.study-card .back{font-family:'Lexend',system-ui; font-size:20px;line-height:1.6; letter-spacing:0.6px; color:#111;text-align:center}
 .study-card.flipped .front{display:none}
 .study-card.flipped .back{display:block}
 .study-card .back{display:none}
+
+.stacked-cards{ position: relative; width: 100%; max-width: 760px; height: 420px; }
+.stacked-card{ position: absolute; left: 0; right: 0; margin: 0 auto; width: 100%; border-radius: 16px; transition: transform .32s cubic-bezier(.2,.9,.2,1), box-shadow .18s ease, opacity .12s ease; transform: translateY(var(--card-translate,0)) scale(var(--card-scale,1)); opacity: var(--card-opacity,1); }
+.stacked-cards { perspective: 1200px; }
+.stacked-card mat-card-content { position: relative; min-height: 240px; }
+.stacked-card .front, .stacked-card .back{ font-family:'Lexend', system-ui; font-size:18px; line-height:1.6; text-align:center; padding: 24px; position: absolute; inset: 0; display:flex; align-items:center; justify-content:center; border-radius:12px; transition: background .24s ease, color .24s ease, opacity .24s ease, transform .24s ease; }
+/* Front: warm paper-like background */
+.stacked-card .front{ background: linear-gradient(180deg, #FFF8E1 0%, #FDF3D7 100%); color: #111; opacity: 1; transform: translateY(0) scale(1); }
+/* Back: cool blue background for contrast (default hidden) */
+.stacked-card .back{ background: linear-gradient(180deg, #E8F6FF 0%, #DFF3FF 100%); color: #05323a; opacity: 0; transform: translateY(8px) scale(0.99); pointer-events: none; }
+
+/* When flipped, reveal the description/back side without rotating the card */
+.stacked-card.flipped .front{ opacity: 0; transform: translateY(-8px) scale(0.98); pointer-events: none; }
+.stacked-card.flipped .back{ opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+.stacked-card.top{ box-shadow: 0 18px 48px rgba(8,10,12,0.08); }
+.stacked-card:not(.top){ filter: saturate(.95); }
+.stacked-card.flipped { /* no 3D rotate; handled by front/back opacity */ }
 .nav{display:flex;align-items:center;gap:12px}
 .pos{min-width:80px;text-align:center}
 .empty{color:#666;padding:18px}
 button.mat-stroked-button{border-radius:10px}
+
+/* Responsive behavior */
+@media (max-width: 900px) {
+	.study-root { width: calc(100% - 24px); margin: 12px auto; }
+	.study-card { max-width: 560px; padding: 14px; }
+	.study-card .front,.study-card .back { font-size: 18px; }
+	.nav { gap: 10px; }
+	.pos { min-width: 64px; }
+}
+
+@media (max-width: 640px) {
+	.card-area { flex-direction: column; gap: 12px; padding: 8px; }
+	.study-card { width: 100%; max-width: 420px; border-radius: 14px; }
+	.nav { width: 100%; justify-content: space-between; }
+	button.mat-icon-button { width: 44px; height: 44px; }
+	.study-card .front, .study-card .back { font-size: 16px; line-height: 1.4; }
+}
+
+/* Ensure mat-card-actions wrap on smaller screens */
+.study-card mat-card-actions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.study-card mat-card-actions button { flex: 1 1 auto; min-width: 84px; }
